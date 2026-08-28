@@ -1,0 +1,955 @@
+﻿
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dulces Sueños Blanquería — Catálogo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+<style>
+.contact-logo{
+  width:70px;
+  height:70px;
+  object-fit:cover;
+  border-radius:50%;
+  margin:0 auto 12px;
+  display:block;
+  border:1px solid var(--line);
+}
+/* =========================================================================
+   PASO 1 DE 3 — LA IMAGEN DE FONDO (tu logo)
+   =========================================================================
+   El archivo "logo-fondo.jpeg" tiene que estar SIEMPRE en la MISMA carpeta
+   que este archivo .html. Si movés uno, movés el otro junto. Si un día
+   cambiás de logo, el archivo nuevo tiene que llamarse igual:
+   "logo-fondo.jpeg" (o cambiás el nombre acá abajo, en "background-image").
+
+   Para MOVER o AJUSTAR el fondo, solo cambiás estos 4 valores.
+   No hace falta tocar nada más del código para esto:
+
+   --logo-pos-x / --logo-pos-y  → dónde queda el centro de la imagen.
+        Valores de 0% a 100%. Ejemplo: "0% 0%" = arriba a la izquierda,
+        "50% 50%" = centrado (por defecto), "100% 100%" = abajo a la derecha.
+
+   --logo-size   → qué tan grande se ve.
+        "cover"   = cubre toda la pantalla (puede recortar bordes).
+        "contain" = se ve completa, sin recortar (puede dejar franjas).
+        También podés poner un tamaño fijo, ej: "900px".
+
+   --logo-opacity → qué tan fuerte/tenue se ve (para que no tape el texto).
+        0.1 = muy tenue · 1 = color completo. Recomendado: entre 0.12 y 0.35.
+   ========================================================================= */
+  :root{
+    --logo-pos-x: 50%;
+    --logo-pos-y: 50%;
+    --logo-size: cover;
+    --logo-opacity: 0.36;
+
+    /* =====================================================================
+       PASO 2 DE 3 — COLORES DE LA MARCA
+       Cambiando estos 6 códigos, cambia el color de TODO el catálogo
+       (fondo, textos, dorado de acentos, etc). Podés pegar cualquier
+       código de color en formato #RRGGBB.
+       ===================================================================== */
+    --bg:#F7E9E6;            /* rosa empolvado de fondo */
+    --surface:#FFFCFA;       /* blanco cálido de las tarjetas */
+    --ink:#3B2A2E;           /* texto principal (marrón-ciruela oscuro) */
+    --ink-soft:#8A7175;      /* texto secundario, más clarito */
+    --accent:#B8935A;        /* dorado, como las líneas del logo */
+    --accent-rose:#C97B84;   /* rosa para el precio y detalles */
+    --line:#EAD6D2;          /* líneas y bordes suaves */
+    --radius:16px;
+  }
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    color:var(--ink);
+    font-family:'Averia Serif Libre', serif;
+    font-size:17px;
+    -webkit-font-smoothing:antialiased;
+    position:relative;
+    background:var(--bg);
+  }
+  /* El logo va en una capa fija detrás de todo el contenido (::before del body) */
+  body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    z-index:0;
+    background-image:
+      url('logo-fondo.jpeg');
+    background-repeat:no-repeat;
+    background-position:var(--logo-pos-x) var(--logo-pos-y);
+    background-size:var(--logo-size);
+    opacity:1;
+  }
+  body::after{
+    /* capa extra para regular opacidad del logo sin afectar el overlay rosa */
+    content:'';
+    position:fixed; inset:0; z-index:0;
+    background:var(--bg);
+    opacity:calc(1 - var(--logo-opacity));
+    pointer-events:none;
+  }
+  header, main, footer{ position:relative; z-index:1; }
+
+  /* ---------- HEADER ---------- */
+  header.cat-header{
+    padding:56px 6vw 30px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  h1.cat-title{
+    font-family:'Caveat', cursive;
+    font-weight:400;
+    font-size:clamp(48px, 8vw, 84px);
+    line-height:1;
+    margin:0 0 6px;
+    color:var(--ink);
+  }
+  .subtitle{
+    font-family:'Averia Serif Libre', serif;
+    font-size:13px;
+    letter-spacing:.3em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin:0 0 26px;
+  }
+  .controls{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    align-items:center;
+    justify-content:center;
+    margin-top:6px;
+  }
+  .search-wrap{ position:relative; flex:1 1 260px; max-width:380px; }
+  .search-wrap input{
+    width:100%;
+    padding:12px 16px 12px 38px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:var(--surface);
+    font-family:'Averia Serif Libre', serif;
+    font-size:15px;
+    color:var(--ink);
+    outline:none;
+    transition:border-color .15s ease;
+  }
+  .search-wrap input:focus{ border-color:var(--accent); }
+  .search-wrap svg{
+    position:absolute; left:13px; top:50%; transform:translateY(-50%);
+    width:15px; height:15px; opacity:.5;
+  }
+  .chip-row{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
+  .chip{
+    font-family:'Averia Serif Libre', serif;
+    font-size:11px;
+    letter-spacing:.08em;
+    padding:8px 16px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:var(--surface);
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:all .15s ease;
+    white-space:nowrap;
+  }
+  .chip.active, .chip:hover{ background:var(--accent); border-color:var(--accent); color:#fff; }
+  .cat-select{
+    font-family:'Averia Serif Libre', serif;
+    font-size:11px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    padding:8px 16px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:var(--surface);
+    color:var(--ink-soft);
+    cursor:pointer;
+    outline:none;
+  }
+  .cat-select:hover, .cat-select:focus{ border-color:var(--accent); }
+
+  /* ---------- GRID ---------- */
+  main{ padding:40px 6vw 90px; }
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(250px, 1fr));
+    gap:28px;
+  }
+
+  /* ---------- TARJETA (elemento firma: borde dorado + flor decorativa) ---------- */
+  .card{
+    background:var(--surface);
+    border-radius:var(--radius);
+    position:relative;
+    overflow:hidden;
+    border:1px solid var(--line);
+    display:flex;
+    flex-direction:column;
+    cursor:pointer;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .card:hover{ transform:translateY(-3px); box-shadow:0 16px 30px -20px rgba(59,42,46,.35); }
+  .card .thumb{
+    position:relative; aspect-ratio:1/1;
+    background:var(--bg);
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+  }
+  .card .thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .card .thumb .noimg{
+    font-family:'Averia Serif Libre', serif; font-size:10.5px; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--ink-soft);
+  }
+  .card .stock-tag{
+    position:absolute; top:12px; right:12px;
+    font-family:'Averia Serif Libre', serif; font-size:9.5px; letter-spacing:.08em;
+    text-transform:uppercase; padding:5px 10px; border-radius:999px;
+    background:rgba(255,255,255,.92); border:1px solid var(--line);
+  }
+  .card .stock-tag.out{ color:#A24236; border-color:#E7C3BC; }
+  .card .stock-tag.in{ color:var(--accent); border-color:#E3D2B8; }
+
+  .card .body{ padding:20px 20px 22px; display:flex; flex-direction:column; gap:5px; flex:1; }
+  .card .category{
+    font-family:'Averia Serif Libre', serif; font-size:10px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--accent);
+  }
+  .card .name{ font-family:'Averia Serif Libre', serif; font-weight:600; font-size:22px; line-height:1.15; margin:0; }
+  .card .desc{ font-size:14.5px; line-height:1.45; color:var(--ink-soft); margin:0; flex:1; }
+
+  .flourish{ display:flex; align-items:center; gap:8px; margin:12px 0 4px; }
+  .flourish::before, .flourish::after{ content:''; flex:1; height:1px; background:var(--line); }
+  .flourish svg{ width:14px; height:14px; opacity:.6; flex-shrink:0; }
+
+  .price-row{ display:flex; align-items:baseline; justify-content:center; }
+  .price{
+    font-family:'Averia Serif Libre', serif; font-weight:600; font-size:19px;
+    color:var(--accent-rose); letter-spacing:.03em;
+  }
+
+  /* ---------- ESTADOS (cargando / vacío / error) ---------- */
+  .state{ padding:90px 6vw; text-align:center; }
+  .state h2{ font-family:'Averia Serif Libre', cursive; font-weight:400; font-size:38px; margin:0 0 8px; color:var(--ink); }
+  .state p{ color:var(--ink-soft); font-size:16px; max-width:520px; margin:0 auto; line-height:1.5; }
+  .state code{
+    background:var(--surface); border:1px solid var(--line); padding:2px 8px;
+    border-radius:6px; font-family:monospace; font-size:13px;
+  }
+  .state ul{ text-align:left; max-width:480px; margin:16px auto 0; color:var(--ink-soft); font-size:15px; line-height:1.7; }
+  .dot-loader{ display:flex; gap:6px; justify-content:center; margin-bottom:20px; }
+  .dot-loader span{ width:8px; height:8px; border-radius:50%; background:var(--accent); animation:bounce 1s infinite ease-in-out; }
+  .dot-loader span:nth-child(2){ animation-delay:.15s; }
+  .dot-loader span:nth-child(3){ animation-delay:.3s; }
+  @keyframes bounce{ 0%,80%,100%{ transform:scale(0.6); opacity:.5; } 40%{ transform:scale(1); opacity:1; } }
+  @media (prefers-reduced-motion: reduce){ .card, .dot-loader span{ animation:none !important; transition:none !important; } }
+
+  footer.cat-footer{ padding:22px 6vw 44px; font-family:'Averia Serif Libre', serif; font-size:10.5px; letter-spacing:.1em; color:var(--ink-soft); text-align:center; }
+
+  /* ---------- MODAL DE DETALLE DE PRODUCTO ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; z-index:50;
+    background:rgba(59,42,46,.55);
+    display:none; align-items:center; justify-content:center;
+    padding:24px;
+  }
+  .modal-overlay.open{ display:flex; }
+  .modal-box{
+    background:var(--surface);
+    border-radius:var(--radius);
+    max-width:880px; width:100%; max-height:90vh;
+    overflow:auto;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    position:relative;
+  }
+  @media (max-width:720px){ .modal-box{ grid-template-columns:1fr; } }
+  .modal-close{
+    position:absolute; top:14px; right:14px;
+    width:34px; height:34px; border-radius:50%;
+    border:1px solid var(--line); background:var(--surface);
+    font-size:20px; line-height:1; cursor:pointer; color:var(--ink);
+    display:flex; align-items:center; justify-content:center; z-index:2;
+  }
+  .modal-close:hover{ background:var(--accent); border-color:var(--accent); color:#fff; }
+  .modal-image{
+    background:var(--bg); aspect-ratio:1/1;
+    display:flex; align-items:center; justify-content:center; overflow:hidden;
+  }
+  .modal-image img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .modal-info{ padding:34px 32px; display:flex; flex-direction:column; gap:10px; }
+  .modal-info .category{
+    font-family:'Averia Serif Libre', serif; font-size:10px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--accent); margin:0;
+  }
+  .modal-info h2{ font-family:'Averia Serif Libre', serif; font-weight:600; font-size:30px; margin:0; line-height:1.1; }
+  .modal-info .desc{ font-size:15.5px; color:var(--ink-soft); line-height:1.55; margin:4px 0 0; }
+  .modal-price{ font-family:'Averia Serif Libre', serif; font-weight:600; font-size:22px; color:var(--accent-rose); margin:8px 0 2px; }
+  .modal-selects{ display:flex; flex-direction:column; gap:14px; margin:6px 0 4px; }
+  .modal-selects label{
+    display:flex; flex-direction:column; gap:6px;
+    font-family:'Averia Serif Libre', serif; font-size:10.5px; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--ink-soft);
+  }
+  .modal-selects select{
+    padding:11px 14px; border-radius:10px; border:1px solid var(--line);
+    background:var(--bg); font-family:'Averia Serif Libre', serif;
+    font-size:15.5px; color:var(--ink); outline:none;
+  }
+  .modal-selects select:focus{ border-color:var(--accent); }
+  .modal-stock{
+    font-family:'Averia Serif Libre', serif; font-size:10.5px; letter-spacing:.08em;
+    text-transform:uppercase; padding:6px 12px; border-radius:999px;
+    border:1px solid var(--line); width:fit-content; margin-top:4px;
+  }
+  .modal-stock.in{ color:var(--accent); border-color:#E3D2B8; }
+  .modal-stock.out{ color:#A24236; border-color:#E7C3BC; }
+  .modal-selects select option:disabled{ color:#C9BAB8; font-style:italic; }
+
+  .contact-btn{ background:var(--accent); border-color:var(--accent); color:#fff; }
+  .contact-box{ grid-template-columns:1fr !important; max-width:460px; }
+  .contact-links{ display:flex; flex-direction:column; gap:10px; margin-top:16px; }
+  .contact-link{
+    display:flex; align-items:center; gap:8px; justify-content:center;
+    padding:13px 18px; border-radius:999px; border:1px solid var(--line);
+    background:var(--bg); color:var(--ink); text-decoration:none;
+    font-family:'Averia Serif Libre', serif; font-size:12.5px; letter-spacing:.06em;
+    text-transform:uppercase; cursor:pointer; transition:all .15s ease;
+    width:100%;
+  }
+  .contact-link:hover{ background:var(--accent); border-color:var(--accent); color:#fff; }
+
+  /* ---------- RESPONSIVE / CELULAR ---------- */
+  @media (max-width:600px){
+    header.cat-header{ padding:38px 5vw 22px; }
+    main{ padding:26px 5vw 60px; }
+    .grid{ grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:16px; }
+    .card .body{ padding:14px 14px 16px; }
+    .card .name{ font-size:18px; }
+    .card .desc{ font-size:13px; -webkit-line-clamp:2; display:-webkit-box; -webkit-box-orient:vertical; overflow:hidden; }
+    .modal-overlay{ padding:0; align-items:flex-end; }
+    .modal-box{ max-height:95vh; border-radius:var(--radius) var(--radius) 0 0; }
+    .modal-image{ aspect-ratio:4/3; }
+    .modal-info{ padding:22px 20px 28px; }
+    .modal-info h2{ font-size:24px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="cat-header">
+  <h1 class="cat-title">Dulces Sueños</h1>
+  <p class="subtitle">Blanquería</p>
+  <div class="controls">
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchInput" placeholder="Buscar producto...">
+    </div>
+    <div class="chip-row" id="chipRow"></div>
+    <button type="button" class="chip contact-btn" onclick="openContact()">✉️ Contacto</button>
+  </div>
+</header>
+
+<main>
+  <div id="content">
+    <div class="state">
+      <div class="dot-loader"><span></span><span></span><span></span></div>
+      <h2>Un momento</h2>
+      <p>Trayendo los productos desde la planilla…</p>
+    </div>
+  </div>
+</main>
+
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this) closeDetail()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeDetail()" aria-label="Cerrar">&times;</button>
+    <div class="modal-image"><img id="modalImg" src="" alt=""></div>
+    <div class="modal-info">
+      <p class="category" id="modalCategory"></p>
+      <h2 id="modalName"></h2>
+      <p class="desc" id="modalDesc"></p>
+      <div class="modal-price" id="modalPrice"></div>
+      <div class="modal-selects">
+        <label id="modalColorWrap" style="display:none">
+          Color
+          <select id="modalColorSelect"></select>
+        </label>
+        <label id="modalSizeWrap" style="display:none">
+          Talle
+          <select id="modalSizeSelect"></select>
+        </label>
+      </div>
+      <div class="modal-stock" id="modalStock"></div>
+      <button type="button" class="contact-link" id="modalWhatsappBtn" onclick="sendWhatsappConsulta()">💬 Consultar por WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="contactOverlay" onclick="if(event.target===this) closeContact()">
+  <div class="modal-box contact-box">
+    <button class="modal-close" onclick="closeContact()" aria-label="Cerrar">&times;</button>
+    <div class="modal-info">
+<img src="logo-catalogo.png" alt="Logo" class="contact-logo">
+      <p class="category">Contacto</p>
+      <h2>Escribinos</h2>
+      <p class="desc" id="contactHorario"></p>
+      <div class="contact-links">
+        <a id="contactEmailLink" class="contact-link" href="#">✉️ Enviar email</a>
+        <a id="contactWhatsappLink" class="contact-link" href="#" target="_blank" rel="noopener">💬 Escribir por WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+/* =============================================================================
+   PASO 3 DE 3 — CONECTAR TU GOOGLE SHEET (esto es lo único "técnico")
+   =============================================================================
+
+   ¿DÓNDE PEGO ESTO?  →  Justo abajo, en las 2 líneas que dicen
+   "const SHEET_ID". En ningún otro lugar del archivo.
+
+   ¿CÓMO EDITO EL ARCHIVO?
+   1. Buscá el archivo catalogo.html en tu computadora (donde lo descargaste).
+   2. Clic derecho sobre el archivo → "Abrir con" → Bloc de notas (Windows)
+      o TextEdit (Mac, pero asegurate que esté en modo "Texto plano":
+      TextEdit → Formato → Texto sin formato).
+      (Si tenés instalado Notepad++, Sublime o VS Code, cualquiera de esos
+      también sirve y es más cómodo).
+   3. Con Ctrl+F (o Cmd+F en Mac) buscá el texto: PEGA_AQUI
+      Te va a llevar directo a la línea que tenés que cambiar.
+   4. Reemplazá SOLO el texto de adentro de las comillas. Las comillas
+      ("  ") se quedan donde están, no las borres.
+
+      Ejemplo de cómo se ve ANTES:
+         const SHEET_ID = "PEGA_AQUI_EL_ID_DE_TU_PLANILLA";
+
+      Ejemplo de cómo se ve DESPUÉS (con un ID inventado a modo de ejemplo):
+         const SHEET_ID = "1AbCdEfGhIjKlMnOpQrStUvWxYz1234567890";
+
+      → SÍ va con comillas. Solo cambiás lo de adentro, dejás las comillas
+        y el punto y coma (;) al final tal cual están.
+
+   ¿DE DÓNDE SACO EL ID?
+   Abrí tu Google Sheet en el navegador y mirá la URL de arriba. Se ve así:
+   https://docs.google.com/spreadsheets/d/ESTE_PEDAZO_ES_EL_ID/edit#gid=0
+                                          ^^^^^^^^^^^^^^^^^^^^
+   Copiás SOLO esa parte (entre "/d/" y "/edit"), sin las barras.
+
+   ¿Y EL GID? Es el número de la pestaña/hoja dentro de tu planilla.
+   Si tus productos están en la primera hoja (la que se abre por defecto),
+   dejá GID = "0" tal cual está, no lo toques. Si están en otra pestaña,
+   fijate en la URL, después de "gid=" (ej: ...#gid=1531248), copiás ese
+   número.
+
+   ANTES de pegar el ID, tenés que compartir la planilla:
+   Google Sheets → botón "Compartir" (arriba a la derecha) → donde dice
+   "Acceso general", cambiar a "Cualquier persona con el enlace" → rol
+   "Lector". Guardar. (No hace falta "Publicar en la Web" ni ningún otro
+   paso — con esto alcanza, funcione el catálogo desde tu compu, desde
+   Netlify o desde cualquier otro lugar donde lo subas).
+
+   ¿CÓMO GUARDO LOS CAMBIOS?
+   Con el Bloc de notas / TextEdit abierto: Ctrl+S (Cmd+S en Mac) →
+   Guardar. IMPORTANTE: que el nombre del archivo siga terminando en
+   ".html" (no dejes que se guarde como ".txt"). Si te pregunta el tipo,
+   elegí "Todos los archivos" y escribí el nombre completo con ".html".
+
+   ¿CÓMO LO "DESCARGO" / ABRO PARA VER CÓMO QUEDÓ?
+   No hace falta subir esto a ningún lado para probarlo en tu compu: es
+   un archivo que abrís haciendo doble clic y se ve directo en tu
+   navegador (Chrome, Edge, Safari, el que uses). Si lo tenés en Netlify,
+   solo hace falta volver a subir el archivo con el cambio.
+
+   COLUMNAS QUE TIENE QUE TENER TU PLANILLA (primera fila):
+   Nombre | Precio | Imagen | Descripcion | Categoria | Stock
+
+   Estas 4 columnas son OPCIONALES (si no las cargás, el catálogo funciona
+   igual, simplemente no muestra esa parte):
+
+   · Nuevo            → escribí "Si" en las filas que quieras marcar como
+                         "Nuevos ingresos" (aparece un botón de acceso
+                         rápido para ese filtro). Dejalo vacío o "No" en
+                         el resto.
+
+   · Talles           → talles separados por coma. Ej: "S, M, L, XL"
+
+   · Colores          → colores separados por coma. Ej: "Rojo, Azul, Verde"
+
+   · ImagenesColores  → un enlace de imagen por cada color, EN EL MISMO
+                         ORDEN que escribiste en "Colores", separados por
+                         una barra vertical " | ". Ej:
+                         "https://...rojo.jpg | https://...azul.jpg | https://...verde.jpg"
+                         Si dejás esta columna vacía, al elegir cualquier
+                         color se sigue mostrando la foto de la columna
+                         "Imagen".
+
+   · SinStock         → para marcar qué combinaciones de color/talle NO
+                         tenés disponibles (el resto se asume disponible).
+                         Separá cada una con " | ". Formatos:
+                           - "Color - Talle"  → esa combinación puntual.
+                             Ej: "Blanco - Queen | Gris - 2 plazas"
+                           - Solo un color (sin talle) → todos los talles
+                             de ese color quedan agotados.
+                             Ej: "Rosa Viejo"
+                           - Solo un talle (sin color) → ese talle queda
+                             agotado en todos los colores.
+                             Ej: "2 plazas"
+                         Si dejás esta columna vacía, se usa la columna
+                         "Stock" de siempre para saber si mostrar
+                         "Disponible" o "Agotado".
+
+   FOTOS DESDE GOOGLE DRIVE:
+   Podés pegar directamente el link que te da Drive al hacer clic derecho
+   sobre la imagen → "Compartir" → "Copiar enlace" (se ve algo así:
+   https://drive.google.com/file/d/ALGUN_CODIGO/view?usp=sharing).
+   El catálogo lo detecta solito y lo transforma para que se pueda ver
+   como imagen. Eso sí: tenés que compartir CADA imagen igual que la
+   planilla → "Cualquier persona con el enlace: Lector". Si el link no
+   sigue ese formato de Drive, tal cual lo pegaste tiene que ser un link
+   que termine mostrando la imagen directamente (no una página).
+   ============================================================================= */
+  const SHEET_ID = "1pwgSaZIgQ8ezc1N3jIpH1YR6RJ4OQZgBC-4gWErFHIo";
+  const GID = "0";
+
+  /* -----------------------------------------------------------------------
+     DATOS DE CONTACTO — completá estos 3 valores con los tuyos.
+     · email      → tu casilla de mail (sin "mailto:", solo la dirección).
+     · whatsapp   → tu número CON código de país y de área, SOLO números,
+                    sin "+", sin espacios ni guiones.
+                    Ejemplo Argentina (cel. 11 2233-4455): "5491122334455"
+     · horario    → texto libre, opcional. Dejalo como "" si no querés
+                    mostrar nada ahí.
+     ----------------------------------------------------------------------- */
+  const CONTACTO = {
+    email: "dianelaferrari331@gmail.com",
+    whatsapp: "543472449388",
+    horario: "Todos los días de 08:00 a 19:00"
+  };
+
+/* ============================================================================= */
+
+  const content = document.getElementById('content');
+  const chipRow = document.getElementById('chipRow');
+  const searchInput = document.getElementById('searchInput');
+
+  let allProducts = [];
+  let allCategories = [];
+  let activeFilter = 'Todos';      // 'Todos', 'Nuevos ingresos' o el nombre de una categoría
+  let currentFiltered = [];        // productos que se están mostrando ahora mismo (para abrir el detalle)
+  let currentProduct = null;       // producto abierto en el modal de detalle
+
+  /* Convierte un link de "Compartir" de Google Drive (que abre una página
+     de vista previa, no la imagen en sí) en un link que carga la imagen
+     directamente y sí funciona dentro de un <img src="...">. */
+  function driveDirectUrl(url){
+    const u = (url || '').toString().trim();
+    if (!u) return u;
+    const patterns = [
+      /drive\.google\.com\/file\/d\/([^/?]+)/,   // .../file/d/ID/view
+      /drive\.google\.com\/open\?id=([^&]+)/,     // .../open?id=ID
+      /drive\.google\.com\/uc\?[^#]*[?&]id=([^&]+)/, // .../uc?...id=ID
+      /[?&]id=([^&]+).*drive\.google\.com/         // por si el orden viene invertido
+    ];
+    for (const re of patterns){
+      const m = u.match(re);
+      if (m && m[1]) return `https://lh3.googleusercontent.com/d/${m[1]}`;
+    }
+    return u;
+  }
+
+  function splitList(str){
+    return (str || '').toString().split(',').map(s => s.trim()).filter(Boolean);
+  }
+  function splitPipe(str){
+    return (str || '').toString().split('|').map(s => driveDirectUrl(s.trim()));
+  }
+  function isNuevo(v){
+    const s = (v || '').toString().trim().toLowerCase();
+    return ['si','sí','yes','true','1'].includes(s);
+  }
+
+  /* Parsea la columna "SinStock" y devuelve qué colores, qué talles y qué
+     combinaciones puntuales de color+talle están marcados como agotados.
+     Formatos aceptados, separados por " | ":
+       "Color - Talle"  → esa combinación puntual
+       "Color"          → todos los talles de ese color
+       "Talle"          → ese talle en todos los colores */
+  function parseSinStock(str, colores, talles){
+    const out = { colores: new Set(), talles: new Set(), pares: new Set() };
+    (str || '').toString().split('|').map(s => s.trim()).filter(Boolean).forEach(entry => {
+      if (entry.includes(' - ')){
+        const [c, t] = entry.split(' - ').map(s => s.trim());
+        out.pares.add(c.toLowerCase() + '|' + t.toLowerCase());
+        return;
+      }
+      const low = entry.toLowerCase();
+      const colorMatch = colores.find(c => c.toLowerCase() === low);
+      const talleMatch = talles.find(t => t.toLowerCase() === low);
+      if (colorMatch) out.colores.add(colorMatch.toLowerCase());
+      else if (talleMatch) out.talles.add(talleMatch.toLowerCase());
+    });
+    return out;
+  }
+
+  /* ¿Está agotada esta combinación puntual de color/talle para este producto? */
+  function comboAgotado(p, color, talle){
+    const c = (color || '').toLowerCase();
+    const t = (talle || '').toLowerCase();
+    if (c && p.sinStock.colores.has(c)) return true;
+    if (t && p.sinStock.talles.has(t)) return true;
+    if (c && t && p.sinStock.pares.has(c + '|' + t)) return true;
+    return false;
+  }
+
+  /* ¿Tiene el producto AL MENOS una combinación disponible? Si no tiene
+     colores ni talles cargados, usa la columna "Stock" de siempre. */
+  function productoDisponible(p){
+    if (p.colores.length || p.talles.length){
+      const colores = p.colores.length ? p.colores : [null];
+      const talles = p.talles.length ? p.talles : [null];
+      for (const c of colores){
+        for (const t of talles){
+          if (!comboAgotado(p, c, t)) return true;
+        }
+      }
+      return false;
+    }
+    return isInStock(p.stock);
+  }
+
+  function renderState(title, msg, extraHTML=''){
+    content.innerHTML = `<div class="state"><h2>${title}</h2><p>${msg}</p>${extraHTML}</div>`;
+  }
+
+  function isInStock(v){
+    const s = (v||'').toString().trim().toLowerCase();
+    if (s === '') return true;
+    if (['no','0','false','agotado','sin stock'].includes(s)) return false;
+    if (['si','sí','yes','true'].includes(s)) return true;
+    const n = parseFloat(s.replace(',', '.'));
+    if (!isNaN(n)) return n > 0;
+    return true;
+  }
+
+  function makeChip(cat){
+    const el = document.createElement('button');
+    el.className = 'chip' + (cat === activeFilter ? ' active' : '');
+    el.textContent = cat;
+    el.addEventListener('click', () => { activeFilter = cat; renderGrid(); renderChips(allCategories); });
+    return el;
+  }
+
+  function renderChips(categories){
+    chipRow.innerHTML = '';
+    // Botón rápido "Todos"
+    chipRow.appendChild(makeChip('Todos'));
+    // Botón rápido "Nuevos ingresos" (solo si hay al menos un producto marcado como nuevo)
+    if (allProducts.some(p => p.esNuevo)){
+      chipRow.appendChild(makeChip('Nuevos ingresos'));
+    }
+    // Desplegable con el resto de las categorías
+    if (categories.length){
+      const select = document.createElement('select');
+      select.className = 'cat-select';
+      const isCategorySelected = !['Todos','Nuevos ingresos'].includes(activeFilter);
+      select.innerHTML = `<option value="">Categorías ▾</option>` +
+        categories.map(c => `<option value="${c}" ${isCategorySelected && activeFilter === c ? 'selected' : ''}>${c}</option>`).join('');
+      select.addEventListener('change', () => {
+        if (select.value){ activeFilter = select.value; renderGrid(); renderChips(categories); }
+      });
+      chipRow.appendChild(select);
+    }
+  }
+
+  function renderGrid(){
+    const query = (searchInput.value || '').toLowerCase().trim();
+    const filtered = allProducts.filter(p => {
+      let matchFilter;
+      if (activeFilter === 'Todos') matchFilter = true;
+      else if (activeFilter === 'Nuevos ingresos') matchFilter = p.esNuevo;
+      else matchFilter = p.categoria === activeFilter;
+      const matchQuery = !query || p.nombre.toLowerCase().includes(query) || p.descripcion.toLowerCase().includes(query);
+      return matchFilter && matchQuery;
+    });
+    currentFiltered = filtered;
+    if (filtered.length === 0){
+      content.innerHTML = `<div class="state"><h2>Nada por aquí</h2><p>Probá con otra palabra o categoría.</p></div>`;
+      return;
+    }
+    content.innerHTML = `<div class="grid">${filtered.map((p, idx) => cardHTML(p, idx)).join('')}</div>`;
+  }
+
+  function cardHTML(p, idx){
+    // Formato argentino: el punto separa miles y la coma es el decimal.
+    // Ej: "$41.023,50" → hay que sacar los puntos y cambiar la coma por punto.
+    const rawPrice = (p.precio||'').replace(/[^0-9.,-]/g,'').replace(/\./g,'').replace(',', '.');
+    const priceNum = parseFloat(rawPrice);
+    const priceLabel = isNaN(priceNum) ? (p.precio || '—') : '$' + priceNum.toLocaleString('es-AR');
+    const stockOk = productoDisponible(p);
+    return `
+      <article class="card" onclick="openDetail(${idx})">
+        <div class="thumb">
+          ${p.imagen ? `<img src="${p.imagen}" alt="${p.nombre}" loading="lazy" onerror="this.parentElement.innerHTML='<span class=noimg>Sin imagen</span>'">` : `<span class="noimg">Sin imagen</span>`}
+          <span class="stock-tag ${stockOk ? 'in':'out'}">${stockOk ? 'Disponible' : 'Agotado'}</span>
+        </div>
+        <div class="body">
+          ${p.categoria ? `<p class="category">${p.categoria}</p>` : ''}
+          <h3 class="name">${p.nombre || 'Producto sin nombre'}</h3>
+          <p class="desc">${p.descripcion || ''}</p>
+          <div class="flourish"><svg viewBox="0 0 24 24" fill="currentColor" style="color:var(--accent)"><circle cx="12" cy="12" r="4"/></svg></div>
+          <div class="price-row"><span class="price">${priceLabel}</span></div>
+        </div>
+      </article>`;
+  }
+
+  /* ---------- MODAL DE DETALLE DE PRODUCTO ---------- */
+  function openDetail(idx){
+    const p = currentFiltered[idx];
+    if (!p) return;
+    currentProduct = p;
+
+    document.getElementById('modalCategory').textContent = p.categoria || '';
+    document.getElementById('modalName').textContent = p.nombre || 'Producto sin nombre';
+    document.getElementById('modalDesc').textContent = p.descripcion || '';
+
+    const rawPrice = (p.precio||'').replace(/[^0-9.,-]/g,'').replace(/\./g,'').replace(',', '.');
+    const priceNum = parseFloat(rawPrice);
+    document.getElementById('modalPrice').textContent = isNaN(priceNum) ? (p.precio || '—') : '$' + priceNum.toLocaleString('es-AR');
+
+    // Colores (si la planilla tiene la columna "Colores"): los que están
+    // agotados en TODOS sus talles quedan marcados y deshabilitados.
+    const colorSelect = document.getElementById('modalColorSelect');
+    const colorWrap = document.getElementById('modalColorWrap');
+    colorSelect.innerHTML = '';
+    if (p.colores && p.colores.length){
+      colorWrap.style.display = 'flex';
+      let firstDisponible = -1;
+      p.colores.forEach((c, i) => {
+        const agotado = p.talles.length
+          ? p.talles.every(t => comboAgotado(p, c, t))
+          : comboAgotado(p, c, null);
+        if (!agotado && firstDisponible === -1) firstDisponible = i;
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = c + (agotado ? ' (Agotado)' : '');
+        colorSelect.appendChild(opt);
+      });
+      colorSelect.value = firstDisponible !== -1 ? firstDisponible : 0;
+      colorSelect.onchange = () => { renderSizeOptions(); updateModalImage(); refreshModalStock(); };
+    } else {
+      colorWrap.style.display = 'none';
+    }
+
+    renderSizeOptions();
+    updateModalImage();
+    refreshModalStock();
+    const waBtn = document.getElementById('modalWhatsappBtn');
+    waBtn.style.display = (CONTACTO.whatsapp && !CONTACTO.whatsapp.includes('PEGA_AQUI')) ? 'flex' : 'none';
+    document.getElementById('modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  /* Arma el desplegable de talles según el color elegido (si hay colores),
+     marcando como "(Agotado)" y deshabilitando los que no tengan stock
+     para ese color puntual. */
+  function renderSizeOptions(){
+    const p = currentProduct;
+    const sizeSelect = document.getElementById('modalSizeSelect');
+    const sizeWrap = document.getElementById('modalSizeWrap');
+    sizeSelect.innerHTML = '';
+    if (!p.talles || !p.talles.length){
+      sizeWrap.style.display = 'none';
+      return;
+    }
+    sizeWrap.style.display = 'flex';
+    const colorSelect = document.getElementById('modalColorSelect');
+    const colorActual = (p.colores && p.colores.length) ? p.colores[parseInt(colorSelect.value, 10)] : null;
+    let firstDisponible = -1;
+    p.talles.forEach((t, i) => {
+      const agotado = comboAgotado(p, colorActual, t);
+      if (!agotado && firstDisponible === -1) firstDisponible = i;
+      const opt = document.createElement('option');
+      opt.value = t;
+      opt.textContent = t + (agotado ? ' (Agotado)' : '');
+      sizeSelect.appendChild(opt);
+    });
+    sizeSelect.selectedIndex = firstDisponible !== -1 ? firstDisponible : 0;
+    sizeSelect.onchange = refreshModalStock;
+  }
+
+  /* Muestra "Disponible"/"Agotado" para la combinación de color+talle que
+     está elegida en este momento en los desplegables. */
+  function refreshModalStock(){
+    const p = currentProduct;
+    const colorSelect = document.getElementById('modalColorSelect');
+    const sizeSelect = document.getElementById('modalSizeSelect');
+    const color = (p.colores && p.colores.length) ? p.colores[parseInt(colorSelect.value, 10)] : null;
+    const talle = (p.talles && p.talles.length) ? sizeSelect.value : null;
+    const agotado = (p.colores.length || p.talles.length) ? comboAgotado(p, color, talle) : !isInStock(p.stock);
+    const stockEl = document.getElementById('modalStock');
+    stockEl.textContent = agotado ? 'Agotado' : 'Disponible';
+    stockEl.className = 'modal-stock ' + (agotado ? 'out' : 'in');
+  }
+
+  /* Cambia la foto grande del modal según el color elegido (usa la columna
+     "ImagenesColores" si está cargada; si no, deja siempre la foto principal). */
+  function updateModalImage(){
+    const p = currentProduct;
+    if (!p) return;
+    const img = document.getElementById('modalImg');
+    let src = p.imagen;
+    if (p.colores && p.colores.length && p.imagenescolores && p.imagenescolores.length){
+      const i = parseInt(document.getElementById('modalColorSelect').value || 0, 10);
+      if (p.imagenescolores[i]) src = p.imagenescolores[i];
+    }
+    img.src = src || '';
+    img.alt = p.nombre || '';
+    img.onerror = () => { img.style.display = 'none'; };
+    img.onload = () => { img.style.display = 'block'; };
+  }
+
+  /* Abre WhatsApp con un mensaje que ya incluye el producto, el color y el
+     talle elegidos en el modal. */
+  function sendWhatsappConsulta(){
+    const p = currentProduct;
+    if (!p) return;
+    if (!CONTACTO.whatsapp || CONTACTO.whatsapp.includes('PEGA_AQUI')) return;
+    let msg = `Hola! Quería consultar por: ${p.nombre}`;
+    if (p.colores && p.colores.length){
+      const c = p.colores[parseInt(document.getElementById('modalColorSelect').value, 10)];
+      if (c) msg += ` - Color: ${c}`;
+    }
+    if (p.talles && p.talles.length){
+      const t = document.getElementById('modalSizeSelect').value;
+      if (t) msg += ` - Talle: ${t}`;
+    }
+    window.open(`https://wa.me/${CONTACTO.whatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+
+  function closeDetail(){
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function openContact(){
+    document.getElementById('contactHorario').textContent = CONTACTO.horario || '';
+    document.getElementById('contactHorario').style.display = CONTACTO.horario ? 'block' : 'none';
+
+    const emailLink = document.getElementById('contactEmailLink');
+    const hasEmail = CONTACTO.email && !CONTACTO.email.includes('PEGA_AQUI');
+    emailLink.style.display = hasEmail ? 'flex' : 'none';
+    if (hasEmail) emailLink.href = 'mailto:' + CONTACTO.email;
+
+    const waLink = document.getElementById('contactWhatsappLink');
+    const hasWa = CONTACTO.whatsapp && !CONTACTO.whatsapp.includes('PEGA_AQUI');
+    waLink.style.display = hasWa ? 'flex' : 'none';
+    if (hasWa) waLink.href = `https://wa.me/${CONTACTO.whatsapp}`;
+
+    document.getElementById('contactOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeContact(){
+    document.getElementById('contactOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape'){ closeDetail(); closeContact(); } });
+
+  /* No usamos fetch() porque el navegador bloquea por CORS los pedidos
+     hechos con JavaScript desde un dominio que no sea el tuyo (como
+     Netlify) hacia Google Sheets. En cambio, pedimos los datos con una
+     etiqueta <script>, que NO tiene esa restricción: es la forma
+     "oficial" de Google para consultar una planilla desde cualquier
+     sitio externo (técnica JSONP). Por eso alcanza con que la planilla
+     esté compartida como "Cualquier persona con el enlace: Lector". */
+  function loadCatalog(){
+    if (!SHEET_ID || SHEET_ID.includes('PEGA_AQUI')){
+      renderState(
+        'Falta un paso',
+        'Todavía no conectaste tu planilla. Abrí este archivo con el Bloc de notas y pegá el ID de tu Google Sheet donde dice:',
+        '<p style="margin-top:10px;"><code>SHEET_ID = "PEGA_AQUI..."</code></p>'
+      );
+      return;
+    }
+
+    const errorState = () => renderState(
+      'No pudimos conectar con tu planilla',
+      'Revisá estos puntos y volvé a cargar la página (F5):',
+      `<ul>
+        <li>Que el ID pegado en el código sea exactamente el de tu planilla.</li>
+        <li>Que la compartiste como "Cualquier persona con el enlace: Lector".</li>
+        <li>Que tengas conexión a internet.</li>
+      </ul>`
+    );
+
+    let respondido = false;
+    const timeout = setTimeout(() => { if (!respondido) errorState(); }, 10000); // 10 segundos máximo de espera
+
+    window.handleGvizResponse = function(json){
+      respondido = true;
+      clearTimeout(timeout);
+      try {
+        if (!json || json.status === 'error') throw new Error('Planilla no accesible');
+        const table = json.table;
+        const headers = table.cols.map(c => (c.label || '').trim().toLowerCase());
+        const rows = table.rows.map(row => {
+          const obj = {};
+          headers.forEach((h, i) => {
+            if (!h) return;
+            const cell = row.c[i];
+            const val = cell ? (cell.f ?? cell.v ?? '') : '';
+            obj[h] = val.toString().trim();
+          });
+          return obj;
+        }).filter(r => r.nombre);
+
+        allProducts = rows.map(r => {
+          const colores = splitList(r.colores);
+          const talles = splitList(r.talles);
+          return {
+            ...r,
+            imagen: driveDirectUrl(r.imagen),
+            esNuevo: isNuevo(r.nuevo),
+            talles,
+            colores,
+            imagenescolores: splitPipe(r.imagenescolores),
+            sinStock: parseSinStock(r.sinstock, colores, talles)
+          };
+        });
+
+        if (allProducts.length === 0){
+          renderState('El catálogo está vacío', 'Agregá filas a tu planilla con la columna "Nombre" completa y volvé a cargar esta página (F5).');
+          return;
+        }
+        allCategories = [...new Set(allProducts.map(p => p.categoria).filter(Boolean))];
+        renderChips(allCategories);
+        renderGrid();
+      } catch (err){
+        errorState();
+        console.error('Error cargando el catálogo:', err);
+      }
+    };
+
+    // Sacamos el <script> del pedido anterior (si existe) antes de pedir de nuevo
+    const prev = document.getElementById('gviz-jsonp');
+    if (prev) prev.remove();
+    const script = document.createElement('script');
+    script.id = 'gviz-jsonp';
+    script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${GID}&tqx=responseHandler:handleGvizResponse`;
+    script.onerror = () => { if (!respondido){ respondido = true; clearTimeout(timeout); errorState(); } };
+    document.body.appendChild(script);
+  }
+
+  searchInput.addEventListener('input', renderGrid);
+  loadCatalog();
+  setInterval(loadCatalog, 60000); // vuelve a chequear la planilla cada 60 segundos
+</script>
+</body>
+</html>

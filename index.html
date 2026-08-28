@@ -892,13 +892,14 @@
 
   const CONTADOR_NAMESPACE = "dulces-suenos-blanqueria-8823";
 
- function registrarVisita(){
+function registrarVisita(){
   fetch("https://api.counterapi.dev/v1/dulces-suenos-blanqueria-8823/visitas/up")
     .then(res => res.json())
     .then(data => {
       if (new URLSearchParams(window.location.search).get('visitas') === '1'){
+        const total = data.count ?? data.value ?? data.data ?? 1;
         const badge = document.createElement('div');
-        badge.textContent = `👁️ Visitas totales: ${data.count}`;
+        badge.textContent = `👁️ Visitas totales: ${total}`;
         badge.style.cssText = `
           position:fixed; bottom:14px; right:14px; z-index:200;
           background:var(--ink); color:#fff; padding:8px 14px;

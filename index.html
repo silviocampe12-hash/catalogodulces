@@ -803,13 +803,13 @@
 
   const EVENTO_ESPECIAL = {
     activo: true,
-    imagen: "https://img.magnific.com/vector-gratis/dia-maestro-dibujado-mano-espanol-ilustracion_23-2149346351.jpg?semt=ais_hybrid&w=740&q=80",
+    imagen: "",
     titulo: "¡Feliz Día del Maestro!",
     mensaje: "Gracias por acompañarnos.",
     fechaLimite: "2026-09-11",
     confeti: true,
     emojisConfeti: ["🎉", "🌸", "✨"],
-    tipoEfecto: "formas", 
+    tipoEfecto: "ambos", 
     coloresConfeti: ["#B8935A", "#C97B84", "#F7E9E6", "#3B2A2E"],
     retrasoBotones: 0,
     promoActivo: false,
@@ -862,31 +862,37 @@
     sessionStorage.setItem('eventoCerrado', '1');
   }
 
-  function lanzarConfeti(){
-    const cont = document.getElementById('eventoConfeti');
-    for (let i = 0; i < 50; i++){
-      const span = document.createElement('span');
-      if (EVENTO_ESPECIAL.tipoEfecto === 'formas'){
-        span.className = 'confeti-forma';
-        const colores = EVENTO_ESPECIAL.coloresConfeti.length ? EVENTO_ESPECIAL.coloresConfeti : ['#B8935A'];
-        span.style.background = colores[Math.floor(Math.random() * colores.length)];
-        span.style.borderRadius = ['50%', '4px', '0'][Math.floor(Math.random() * 3)];
-        const tam = 8 + Math.random() * 10;
-        span.style.width = tam + 'px';
-        span.style.height = tam + 'px';
-      } else {
-        span.className = 'confeti-pieza';
-        const emojis = EVENTO_ESPECIAL.emojisConfeti.length ? EVENTO_ESPECIAL.emojisConfeti : ['🎉'];
-        span.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-        span.style.fontSize = (16 + Math.random() * 14) + 'px';
-      }
-      span.style.left = Math.random() * 100 + 'vw';
-      span.style.animationDuration = (2.5 + Math.random() * 2) + 's';
-      span.style.animationDelay = (Math.random() * 1.5) + 's';
-      cont.appendChild(span);
+function lanzarConfeti(){
+  const cont = document.getElementById('eventoConfeti');
+  for (let i = 0; i < 60; i++){
+    const span = document.createElement('span');
+    
+    // Si tipoEfecto es 'ambos' o no coincide, decide al azar (50/50) si genera emoji o forma
+    const esForma = EVENTO_ESPECIAL.tipoEfecto === 'formas' || 
+                    (EVENTO_ESPECIAL.tipoEfecto === 'ambos' && Math.random() > 0.5);
+
+    if (esForma){
+      span.className = 'confeti-forma';
+      const colores = EVENTO_ESPECIAL.coloresConfeti.length ? EVENTO_ESPECIAL.coloresConfeti : ['#B8935A'];
+      span.style.background = colores[Math.floor(Math.random() * colores.length)];
+      span.style.borderRadius = ['50%', '4px', '0'][Math.floor(Math.random() * 3)];
+      const tam = 8 + Math.random() * 10;
+      span.style.width = tam + 'px';
+      span.style.height = tam + 'px';
+    } else {
+      span.className = 'confeti-pieza';
+      const emojis = EVENTO_ESPECIAL.emojisConfeti.length ? EVENTO_ESPECIAL.emojisConfeti : ['🎉'];
+      span.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      span.style.fontSize = (16 + Math.random() * 14) + 'px';
     }
-    setTimeout(() => { cont.innerHTML = ''; }, 5000);
+
+    span.style.left = Math.random() * 100 + 'vw';
+    span.style.animationDuration = (2.5 + Math.random() * 2) + 's';
+    span.style.animationDelay = (Math.random() * 1.5) + 's';
+    cont.appendChild(span);
   }
+  setTimeout(() => { cont.innerHTML = ''; }, 5000);
+}
 
   mostrarEventoSiCorresponde();
 

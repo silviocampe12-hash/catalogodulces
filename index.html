@@ -893,11 +893,11 @@
   const CONTADOR_NAMESPACE = "dulces-suenos-blanqueria-8823";
 
 function registrarVisita(){
-  fetch("https://hit.as/dulces-suenos-blanqueria-8823/count")
+  fetch("https://api.counterapi.dev/v1/dulces-suenos-blanqueria-8823/visitas/up")
     .then(res => res.json())
     .then(data => {
+      const total = data.count || data.value || 1;
       if (new URLSearchParams(window.location.search).get('visitas') === '1'){
-        const total = data.value || data.hits || 1;
         const badge = document.createElement('div');
         badge.textContent = `👁️ Visitas totales: ${total}`;
         badge.style.cssText = `
@@ -909,9 +909,25 @@ function registrarVisita(){
         document.body.appendChild(badge);
       }
     })
-    .catch(() => {});
+    .catch(() => {
+      fetch("https://api.counterapi.dev/v1/dulces-suenos-blanqueria-8823/visitas")
+        .then(res => res.json())
+        .then(data => {
+          const total = data.count || 1;
+          if (new URLSearchParams(window.location.search).get('visitas') === '1'){
+            const badge = document.createElement('div');
+            badge.textContent = `👁️ Visitas totales: ${total}`;
+            badge.style.cssText = `
+              position:fixed; bottom:14px; right:14px; z-index:200;
+              background:var(--ink); color:#fff; padding:8px 14px;
+              border-radius:999px; font-family:'Averia Serif Libre', serif;
+              font-size:13px; box-shadow:0 6px 16px rgba(0,0,0,.25);
+            `;
+            document.body.appendChild(badge);
+          }
+        }).catch(() => {});
+    });
 }
-  registrarVisita();
 
   searchInput.addEventListener('input', renderGrid);
   loadCatalog();

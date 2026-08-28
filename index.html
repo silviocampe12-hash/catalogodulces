@@ -96,7 +96,23 @@
     pointer-events:none;
   }
   header, main, footer{ position:relative; z-index:1; }
-
+/*--------------------------------HTML -- EVENTOS-------------------------------------------*/
+  <div class="evento-confeti" id="eventoConfeti"></div>
+<div class="evento-overlay" id="eventoOverlay">
+  <div class="evento-box">
+    <button class="evento-close" onclick="cerrarEvento()" aria-label="Cerrar">&times;</button>
+    <img id="eventoImg" class="evento-img" src="" alt="">
+    <h2 id="eventoTitulo"></h2>
+    <p id="eventoMensaje"></p>
+  <div class="evento-botones" id="eventoBotones">
+  <button type="button" class="contact-link" onclick="cerrarEvento()" id="eventoBtnContinuar">Continuar</button>
+  <a href="#" class="contact-link" id="eventoBtnPromo" style="display:none;">Ver promociones</a>
+</div>
+  </div>
+</div>
+/*-----------------------------------------------------------------------------------------------*/
+  
+/*-----------------------------------------------------------------------------------------------*/            
   /* ---------- HEADER ---------- */
   header.cat-header{
     padding:56px 6vw 30px;
@@ -339,6 +355,45 @@
     .modal-info{ padding:22px 20px 28px; }
     .modal-info h2{ font-size:24px; }
   }
+/*==========================================================================================*/
+/*==========================================================================================*/
+  
+  /* ---------- CSS -- CARTEL DE EVENTOS ESPECIALES ---------- */
+.evento-overlay{
+  position:fixed; inset:0; z-index:100;
+  background:rgba(59,42,46,.65);
+  display:none; align-items:center; justify-content:center; padding:20px;
+}
+.evento-overlay.open{ display:flex; }
+.evento-box{
+  background:var(--surface); border-radius:var(--radius);
+  max-width:420px; width:100%; padding:32px 28px; text-align:center;
+  position:relative; box-shadow:0 30px 60px -20px rgba(0,0,0,.4);
+  animation:eventoPop .35s ease;
+}
+@keyframes eventoPop{ from{ transform:scale(.85); opacity:0; } to{ transform:scale(1); opacity:1; } }
+.evento-close{
+  position:absolute; top:10px; right:10px; width:32px; height:32px;
+  border-radius:50%; border:1px solid var(--line); background:var(--surface);
+  cursor:pointer; font-size:18px; line-height:1;
+}
+.evento-img{ width:100%; max-height:220px; object-fit:cover; border-radius:12px; margin-bottom:16px; display:none; }
+.evento-box h2{ font-family:'Averia Serif Libre', serif; margin:0 0 8px; font-size:24px; color:var(--ink); }
+.evento-box p{ margin:0; color:var(--ink-soft); font-size:15px; line-height:1.5; }
+.evento-confeti{ position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:99; }
+  .evento-botones{
+  display:none;
+  flex-direction:column;
+  gap:10px;
+  margin-top:18px;
+  animation:eventoPop .3s ease;
+}
+.confeti-pieza{ position:absolute; top:-40px; animation:eventoCaer linear forwards; }
+@keyframes eventoCaer{ to{ transform:translateY(110vh) rotate(360deg); opacity:.9; } }
+  .confeti-forma{ position:absolute; top:-40px; animation:eventoCaer linear forwards; }
+  /*---------------------------------------------------------------------------------------------------------------------------*/
+  
+  /*---------------------------------------------------------------------------------------------------------------------------*/
 </style>
 </head>
 <body>
@@ -947,6 +1002,136 @@
     document.body.appendChild(script);
   }
 
+  /* -----------------------------------------------------------------------
+  JAVASCRIPT -- CARTEL DE EVENTOS ESPECIALES — completá esto para cada fecha que quieras
+   festejar (Día del Maestro, Amigo, Navidad, lo que sea). Server para todo,
+   solo cambiás estos valores:
+
+   · activo        → true muestra el cartel, false lo apaga manualmente
+                      en cualquier momento (sin borrar nada).
+   · imagen        → link o nombre de archivo de una foto (opcional).
+                      Dejalo "" (vacío) si no querés mostrar imagen.
+   · titulo        → el título grande del cartel.
+   · mensaje       → el texto de abajo.
+   · fechaLimite   → formato "AAAA-MM-DD". El cartel deja de aparecer
+                      SOLO a partir del día siguiente a esta fecha.
+                      Dejalo "" si no querés que se apague nunca solo.
+   · confeti       → true tira animación de confeti, false no.
+   · emojisConfeti → los que quieras usar de confeti.
+   ----------------------------------------------------------------------- */
+  const EVENTO_ESPECIAL = {
+    activo: true,
+    imagen: "",
+    titulo: "¡Feliz Día del Maestro!",
+    mensaje: "Gracias por acompañarnos. Este es un mensaje de ejemplo.",
+    fechaLimite: "2026-09-11",
+    confeti: true,
+    emojisConfeti: ["🎉", "🌸", "✨"]
+    tipoEfecto: "formas",   // "formas" (cuadraditos/círculos de colores) o "emoji"
+coloresConfeti: ["#B8935A", "#C97B84", "#F7E9E6", "#3B2A2E"], // solo se usa si tipoEfecto es "formas"
+  };
+
+  function mostrarEventoSiCorresponde(){
+   function mostrarEventoSiCorresponde(){
+  if (!EVENTO_ESPECIAL.activo) return;
+  if (EVENTO_ESPECIAL.fechaLimite){
+    const limite = new Date(EVENTO_ESPECIAL.fechaLimite + 'T23:59:59');
+    if (new Date() > limite) return;
+  }
+  if (sessionStorage.getItem('eventoCerrado')) return;
+
+  const img = document.getElementById('eventoImg');
+  if (EVENTO_ESPECIAL.imagen){ img.src = EVENTO_ESPECIAL.imagen; img.style.display = 'block'; }
+  document.getElementById('eventoTitulo').textContent = EVENTO_ESPECIAL.titulo || '';
+  document.getElementById('eventoMensaje').textContent = EVENTO_ESPECIAL.mensaje || '';
+  document.getElementById('eventoOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (EVENTO_ESPECIAL.confeti) lanzarConfeti();
+
+  // Botones: aparecen recién después de "retrasoBotones" segundos
+  const botones = document.getElementById('eventoBotones');
+  const btnContinuar = document.getElementById('eventoBtnContinuar');
+  const btnPromo = document.getElementById('eventoBtnPromo');
+  btnContinuar.textContent = EVENTO_ESPECIAL.textoBotonContinuar || 'Continuar';
+
+  if (EVENTO_ESPECIAL.promoActivo && EVENTO_ESPECIAL.promoCategoria){
+    btnPromo.textContent = EVENTO_ESPECIAL.textoBotonPromo || 'Ver promociones';
+    btnPromo.style.display = 'flex';
+    btnPromo.onclick = (e) => {
+      e.preventDefault();
+      cerrarEvento();
+      activeFilter = EVENTO_ESPECIAL.promoCategoria;
+      renderGrid();
+      renderChips(allCategories);
+    };
+  } else {
+    btnPromo.style.display = 'none';
+  }
+
+  setTimeout(() => { botones.style.display = 'flex'; }, EVENTO_ESPECIAL.retrasoBotones * 1000);
+}
+  function cerrarEvento(){
+    document.getElementById('eventoOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+    sessionStorage.setItem('eventoCerrado', '1');
+  }
+
+  function lanzarConfeti(){
+  const cont = document.getElementById('eventoConfeti');
+  for (let i = 0; i < 50; i++){
+    const span = document.createElement('span');
+    if (EVENTO_ESPECIAL.tipoEfecto === 'formas'){
+      span.className = 'confeti-forma';
+      const colores = EVENTO_ESPECIAL.coloresConfeti.length ? EVENTO_ESPECIAL.coloresConfeti : ['#B8935A'];
+      span.style.background = colores[Math.floor(Math.random() * colores.length)];
+      span.style.borderRadius = ['50%', '4px', '0'][Math.floor(Math.random() * 3)];
+      const tam = 8 + Math.random() * 10;
+      span.style.width = tam + 'px';
+      span.style.height = tam + 'px';
+    } else {
+      span.className = 'confeti-pieza';
+      const emojis = EVENTO_ESPECIAL.emojisConfeti.length ? EVENTO_ESPECIAL.emojisConfeti : ['🎉'];
+      span.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      span.style.fontSize = (16 + Math.random() * 14) + 'px';
+    }
+    span.style.left = Math.random() * 100 + 'vw';
+    span.style.animationDuration = (2.5 + Math.random() * 2) + 's';
+    span.style.animationDelay = (Math.random() * 1.5) + 's';
+    cont.appendChild(span);
+  }
+  setTimeout(() => { cont.innerHTML = ''; }, 5000);
+}
+  mostrarEventoSiCorresponde();
+/*=============================================================================*/
+    
+/*=============================================================================*/
+    /* CONTADOR DE VISITAS — cambiá esto por algo único de tu negocio,
+   para que no se mezcle con el contador de otro sitio */
+const CONTADOR_NAMESPACE = "dulces-suenos-blanqueria-8823";
+
+function registrarVisita(){
+  fetch(`https://api.countapi.xyz/hit/${CONTADOR_NAMESPACE}/visitas`)
+    .then(res => res.json())
+    .then(data => {
+      if (new URLSearchParams(window.location.search).get('visitas') === '1'){
+        const badge = document.createElement('div');
+        badge.textContent = `👁️ Visitas totales: ${data.value}`;
+        badge.style.cssText = `
+          position:fixed; bottom:14px; right:14px; z-index:200;
+          background:var(--ink); color:#fff; padding:8px 14px;
+          border-radius:999px; font-family:'Averia Serif Libre', serif;
+          font-size:13px; box-shadow:0 6px 16px rgba(0,0,0,.25);
+        `;
+        document.body.appendChild(badge);
+      }
+    })
+    .catch(() => {}); // si el servicio falla, no rompe nada del catálogo
+}
+registrarVisita();
+    /*=============================================================================*/
+    
+    /*=============================================================================*/
+    
   searchInput.addEventListener('input', renderGrid);
   loadCatalog();
   setInterval(loadCatalog, 60000); // vuelve a chequear la planilla cada 60 segundos

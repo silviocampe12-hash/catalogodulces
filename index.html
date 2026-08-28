@@ -535,7 +535,7 @@
       const select = document.createElement('select');
       select.className = 'cat-select';
       const isCategorySelected = !['Todos','Nuevos ingresos'].includes(activeFilter);
-      select.innerHTML = `<option value="">Categorías ▾</option>` +
+      select.innerHTML = `<option value="">Categorías</option>` +
         categories.map(c => `<option value="${c}" ${isCategorySelected && activeFilter === c ? 'selected' : ''}>${c}</option>`).join('');
       select.addEventListener('change', () => {
         if (select.value){ activeFilter = select.value; renderGrid(); renderChips(categories); }

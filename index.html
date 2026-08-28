@@ -1,4 +1,3 @@
-﻿
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,61 +5,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dulces Sueños Blanquería — Catálogo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Caveat:wght@400..700&display=swap" rel="stylesheet">
 <style>
-.contact-logo{
-  width:70px;
-  height:70px;
-  object-fit:cover;
-  border-radius:50%;
-  margin:0 auto 12px;
-  display:block;
-  border:1px solid var(--line);
-}
-/* =========================================================================
-   PASO 1 DE 3 — LA IMAGEN DE FONDO (tu logo)
-   =========================================================================
-   El archivo "logo-fondo.jpeg" tiene que estar SIEMPRE en la MISMA carpeta
-   que este archivo .html. Si movés uno, movés el otro junto. Si un día
-   cambiás de logo, el archivo nuevo tiene que llamarse igual:
-   "logo-fondo.jpeg" (o cambiás el nombre acá abajo, en "background-image").
+  .contact-logo{
+    width:70px;
+    height:70px;
+    object-fit:cover;
+    border-radius:50%;
+    margin:0 auto 12px;
+    display:block;
+    border:1px solid var(--line);
+  }
 
-   Para MOVER o AJUSTAR el fondo, solo cambiás estos 4 valores.
-   No hace falta tocar nada más del código para esto:
-
-   --logo-pos-x / --logo-pos-y  → dónde queda el centro de la imagen.
-        Valores de 0% a 100%. Ejemplo: "0% 0%" = arriba a la izquierda,
-        "50% 50%" = centrado (por defecto), "100% 100%" = abajo a la derecha.
-
-   --logo-size   → qué tan grande se ve.
-        "cover"   = cubre toda la pantalla (puede recortar bordes).
-        "contain" = se ve completa, sin recortar (puede dejar franjas).
-        También podés poner un tamaño fijo, ej: "900px".
-
-   --logo-opacity → qué tan fuerte/tenue se ve (para que no tape el texto).
-        0.1 = muy tenue · 1 = color completo. Recomendado: entre 0.12 y 0.35.
-   ========================================================================= */
   :root{
     --logo-pos-x: 50%;
     --logo-pos-y: 50%;
     --logo-size: cover;
     --logo-opacity: 0.36;
 
-    /* =====================================================================
-       PASO 2 DE 3 — COLORES DE LA MARCA
-       Cambiando estos 6 códigos, cambia el color de TODO el catálogo
-       (fondo, textos, dorado de acentos, etc). Podés pegar cualquier
-       código de color en formato #RRGGBB.
-       ===================================================================== */
-    --bg:#F7E9E6;            /* rosa empolvado de fondo */
-    --surface:#FFFCFA;       /* blanco cálido de las tarjetas */
-    --ink:#3B2A2E;           /* texto principal (marrón-ciruela oscuro) */
-    --ink-soft:#8A7175;      /* texto secundario, más clarito */
-    --accent:#B8935A;        /* dorado, como las líneas del logo */
-    --accent-rose:#C97B84;   /* rosa para el precio y detalles */
-    --line:#EAD6D2;          /* líneas y bordes suaves */
+    --bg:#F7E9E6;            
+    --surface:#FFFCFA;       
+    --ink:#3B2A2E;           
+    --ink-soft:#8A7175;      
+    --accent:#B8935A;        
+    --accent-rose:#C97B84;   
+    --line:#EAD6D2;          
     --radius:16px;
   }
   *{box-sizing:border-box;}
@@ -74,21 +44,19 @@
     position:relative;
     background:var(--bg);
   }
-  /* El logo va en una capa fija detrás de todo el contenido (::before del body) */
+  
   body::before{
     content:'';
     position:fixed;
     inset:0;
     z-index:0;
-    background-image:
-      url('logo-fondo.jpeg');
+    background-image: url('logo-fondo.jpeg');
     background-repeat:no-repeat;
     background-position:var(--logo-pos-x) var(--logo-pos-y);
     background-size:var(--logo-size);
     opacity:1;
   }
   body::after{
-    /* capa extra para regular opacidad del logo sin afectar el overlay rosa */
     content:'';
     position:fixed; inset:0; z-index:0;
     background:var(--bg);
@@ -96,24 +64,7 @@
     pointer-events:none;
   }
   header, main, footer{ position:relative; z-index:1; }
-/*--------------------------------HTML -- EVENTOS-------------------------------------------*/
-  <div class="evento-confeti" id="eventoConfeti"></div>
-<div class="evento-overlay" id="eventoOverlay">
-  <div class="evento-box">
-    <button class="evento-close" onclick="cerrarEvento()" aria-label="Cerrar">&times;</button>
-    <img id="eventoImg" class="evento-img" src="" alt="">
-    <h2 id="eventoTitulo"></h2>
-    <p id="eventoMensaje"></p>
-  <div class="evento-botones" id="eventoBotones">
-  <button type="button" class="contact-link" onclick="cerrarEvento()" id="eventoBtnContinuar">Continuar</button>
-  <a href="#" class="contact-link" id="eventoBtnPromo" style="display:none;">Ver promociones</a>
-</div>
-  </div>
-</div>
-/*-----------------------------------------------------------------------------------------------*/
-  
-/*-----------------------------------------------------------------------------------------------*/            
-  /* ---------- HEADER ---------- */
+
   header.cat-header{
     padding:56px 6vw 30px;
     text-align:center;
@@ -191,7 +142,6 @@
   }
   .cat-select:hover, .cat-select:focus{ border-color:var(--accent); }
 
-  /* ---------- GRID ---------- */
   main{ padding:40px 6vw 90px; }
   .grid{
     display:grid;
@@ -199,7 +149,6 @@
     gap:28px;
   }
 
-  /* ---------- TARJETA (elemento firma: borde dorado + flor decorativa) ---------- */
   .card{
     background:var(--surface);
     border-radius:var(--radius);
@@ -250,7 +199,6 @@
     color:var(--accent-rose); letter-spacing:.03em;
   }
 
-  /* ---------- ESTADOS (cargando / vacío / error) ---------- */
   .state{ padding:90px 6vw; text-align:center; }
   .state h2{ font-family:'Averia Serif Libre', cursive; font-weight:400; font-size:38px; margin:0 0 8px; color:var(--ink); }
   .state p{ color:var(--ink-soft); font-size:16px; max-width:520px; margin:0 auto; line-height:1.5; }
@@ -268,7 +216,6 @@
 
   footer.cat-footer{ padding:22px 6vw 44px; font-family:'Averia Serif Libre', serif; font-size:10.5px; letter-spacing:.1em; color:var(--ink-soft); text-align:center; }
 
-  /* ---------- MODAL DE DETALLE DE PRODUCTO ---------- */
   .modal-overlay{
     position:fixed; inset:0; z-index:50;
     background:rgba(59,42,46,.55);
@@ -341,7 +288,6 @@
   }
   .contact-link:hover{ background:var(--accent); border-color:var(--accent); color:#fff; }
 
-  /* ---------- RESPONSIVE / CELULAR ---------- */
   @media (max-width:600px){
     header.cat-header{ padding:38px 5vw 22px; }
     main{ padding:26px 5vw 60px; }
@@ -355,48 +301,56 @@
     .modal-info{ padding:22px 20px 28px; }
     .modal-info h2{ font-size:24px; }
   }
-/*==========================================================================================*/
-/*==========================================================================================*/
-  
-  /* ---------- CSS -- CARTEL DE EVENTOS ESPECIALES ---------- */
-.evento-overlay{
-  position:fixed; inset:0; z-index:100;
-  background:rgba(59,42,46,.65);
-  display:none; align-items:center; justify-content:center; padding:20px;
-}
-.evento-overlay.open{ display:flex; }
-.evento-box{
-  background:var(--surface); border-radius:var(--radius);
-  max-width:420px; width:100%; padding:32px 28px; text-align:center;
-  position:relative; box-shadow:0 30px 60px -20px rgba(0,0,0,.4);
-  animation:eventoPop .35s ease;
-}
-@keyframes eventoPop{ from{ transform:scale(.85); opacity:0; } to{ transform:scale(1); opacity:1; } }
-.evento-close{
-  position:absolute; top:10px; right:10px; width:32px; height:32px;
-  border-radius:50%; border:1px solid var(--line); background:var(--surface);
-  cursor:pointer; font-size:18px; line-height:1;
-}
-.evento-img{ width:100%; max-height:220px; object-fit:cover; border-radius:12px; margin-bottom:16px; display:none; }
-.evento-box h2{ font-family:'Averia Serif Libre', serif; margin:0 0 8px; font-size:24px; color:var(--ink); }
-.evento-box p{ margin:0; color:var(--ink-soft); font-size:15px; line-height:1.5; }
-.evento-confeti{ position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:99; }
+
+  .evento-overlay{
+    position:fixed; inset:0; z-index:100;
+    background:rgba(59,42,46,.65);
+    display:none; align-items:center; justify-content:center; padding:20px;
+  }
+  .evento-overlay.open{ display:flex; }
+  .evento-box{
+    background:var(--surface); border-radius:var(--radius);
+    max-width:420px; width:100%; padding:32px 28px; text-align:center;
+    position:relative; box-shadow:0 30px 60px -20px rgba(0,0,0,.4);
+    animation:eventoPop .35s ease;
+  }
+  @keyframes eventoPop{ from{ transform:scale(.85); opacity:0; } to{ transform:scale(1); opacity:1; } }
+  .evento-close{
+    position:absolute; top:10px; right:10px; width:32px; height:32px;
+    border-radius:50%; border:1px solid var(--line); background:var(--surface);
+    cursor:pointer; font-size:18px; line-height:1;
+  }
+  .evento-img{ width:100%; max-height:220px; object-fit:cover; border-radius:12px; margin-bottom:16px; display:none; }
+  .evento-box h2{ font-family:'Averia Serif Libre', serif; margin:0 0 8px; font-size:24px; color:var(--ink); }
+  .evento-box p{ margin:0; color:var(--ink-soft); font-size:15px; line-height:1.5; }
+  .evento-confeti{ position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:99; }
   .evento-botones{
-  display:none;
-  flex-direction:column;
-  gap:10px;
-  margin-top:18px;
-  animation:eventoPop .3s ease;
-}
-.confeti-pieza{ position:absolute; top:-40px; animation:eventoCaer linear forwards; }
-@keyframes eventoCaer{ to{ transform:translateY(110vh) rotate(360deg); opacity:.9; } }
+    display:none;
+    flex-direction:column;
+    gap:10px;
+    margin-top:18px;
+    animation:eventoPop .3s ease;
+  }
+  .confeti-pieza{ position:absolute; top:-40px; animation:eventoCaer linear forwards; }
+  @keyframes eventoCaer{ to{ transform:translateY(110vh) rotate(360deg); opacity:.9; } }
   .confeti-forma{ position:absolute; top:-40px; animation:eventoCaer linear forwards; }
-  /*---------------------------------------------------------------------------------------------------------------------------*/
-  
-  /*---------------------------------------------------------------------------------------------------------------------------*/
 </style>
 </head>
 <body>
+
+<div class="evento-confeti" id="eventoConfeti"></div>
+<div class="evento-overlay" id="eventoOverlay">
+  <div class="evento-box">
+    <button class="evento-close" onclick="cerrarEvento()" aria-label="Cerrar">×</button>
+    <img id="eventoImg" class="evento-img" src="" alt="">
+    <h2 id="eventoTitulo"></h2>
+    <p id="eventoMensaje"></p>
+    <div class="evento-botones" id="eventoBotones">
+      <button type="button" class="contact-link" onclick="cerrarEvento()" id="eventoBtnContinuar">Continuar</button>
+      <a href="#" class="contact-link" id="eventoBtnPromo" style="display:none;">Ver promociones</a>
+    </div>
+  </div>
+</div>
 
 <header class="cat-header">
   <h1 class="cat-title">Dulces Sueños</h1>
@@ -423,7 +377,7 @@
 
 <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this) closeDetail()">
   <div class="modal-box">
-    <button class="modal-close" onclick="closeDetail()" aria-label="Cerrar">&times;</button>
+    <button class="modal-close" onclick="closeDetail()" aria-label="Cerrar">×</button>
     <div class="modal-image"><img id="modalImg" src="" alt=""></div>
     <div class="modal-info">
       <p class="category" id="modalCategory"></p>
@@ -448,9 +402,9 @@
 
 <div class="modal-overlay" id="contactOverlay" onclick="if(event.target===this) closeContact()">
   <div class="modal-box contact-box">
-    <button class="modal-close" onclick="closeContact()" aria-label="Cerrar">&times;</button>
+    <button class="modal-close" onclick="closeContact()" aria-label="Cerrar">×</button>
     <div class="modal-info">
-<img src="logo-catalogo.png" alt="Logo" class="contact-logo">
+      <img src="logo-catalogo.png" alt="Logo" class="contact-logo">
       <p class="category">Contacto</p>
       <h2>Escribinos</h2>
       <p class="desc" id="contactHorario"></p>
@@ -462,134 +416,15 @@
   </div>
 </div>
 
-
 <script>
-/* =============================================================================
-   PASO 3 DE 3 — CONECTAR TU GOOGLE SHEET (esto es lo único "técnico")
-   =============================================================================
-
-   ¿DÓNDE PEGO ESTO?  →  Justo abajo, en las 2 líneas que dicen
-   "const SHEET_ID". En ningún otro lugar del archivo.
-
-   ¿CÓMO EDITO EL ARCHIVO?
-   1. Buscá el archivo catalogo.html en tu computadora (donde lo descargaste).
-   2. Clic derecho sobre el archivo → "Abrir con" → Bloc de notas (Windows)
-      o TextEdit (Mac, pero asegurate que esté en modo "Texto plano":
-      TextEdit → Formato → Texto sin formato).
-      (Si tenés instalado Notepad++, Sublime o VS Code, cualquiera de esos
-      también sirve y es más cómodo).
-   3. Con Ctrl+F (o Cmd+F en Mac) buscá el texto: PEGA_AQUI
-      Te va a llevar directo a la línea que tenés que cambiar.
-   4. Reemplazá SOLO el texto de adentro de las comillas. Las comillas
-      ("  ") se quedan donde están, no las borres.
-
-      Ejemplo de cómo se ve ANTES:
-         const SHEET_ID = "PEGA_AQUI_EL_ID_DE_TU_PLANILLA";
-
-      Ejemplo de cómo se ve DESPUÉS (con un ID inventado a modo de ejemplo):
-         const SHEET_ID = "1AbCdEfGhIjKlMnOpQrStUvWxYz1234567890";
-
-      → SÍ va con comillas. Solo cambiás lo de adentro, dejás las comillas
-        y el punto y coma (;) al final tal cual están.
-
-   ¿DE DÓNDE SACO EL ID?
-   Abrí tu Google Sheet en el navegador y mirá la URL de arriba. Se ve así:
-   https://docs.google.com/spreadsheets/d/ESTE_PEDAZO_ES_EL_ID/edit#gid=0
-                                          ^^^^^^^^^^^^^^^^^^^^
-   Copiás SOLO esa parte (entre "/d/" y "/edit"), sin las barras.
-
-   ¿Y EL GID? Es el número de la pestaña/hoja dentro de tu planilla.
-   Si tus productos están en la primera hoja (la que se abre por defecto),
-   dejá GID = "0" tal cual está, no lo toques. Si están en otra pestaña,
-   fijate en la URL, después de "gid=" (ej: ...#gid=1531248), copiás ese
-   número.
-
-   ANTES de pegar el ID, tenés que compartir la planilla:
-   Google Sheets → botón "Compartir" (arriba a la derecha) → donde dice
-   "Acceso general", cambiar a "Cualquier persona con el enlace" → rol
-   "Lector". Guardar. (No hace falta "Publicar en la Web" ni ningún otro
-   paso — con esto alcanza, funcione el catálogo desde tu compu, desde
-   Netlify o desde cualquier otro lugar donde lo subas).
-
-   ¿CÓMO GUARDO LOS CAMBIOS?
-   Con el Bloc de notas / TextEdit abierto: Ctrl+S (Cmd+S en Mac) →
-   Guardar. IMPORTANTE: que el nombre del archivo siga terminando en
-   ".html" (no dejes que se guarde como ".txt"). Si te pregunta el tipo,
-   elegí "Todos los archivos" y escribí el nombre completo con ".html".
-
-   ¿CÓMO LO "DESCARGO" / ABRO PARA VER CÓMO QUEDÓ?
-   No hace falta subir esto a ningún lado para probarlo en tu compu: es
-   un archivo que abrís haciendo doble clic y se ve directo en tu
-   navegador (Chrome, Edge, Safari, el que uses). Si lo tenés en Netlify,
-   solo hace falta volver a subir el archivo con el cambio.
-
-   COLUMNAS QUE TIENE QUE TENER TU PLANILLA (primera fila):
-   Nombre | Precio | Imagen | Descripcion | Categoria | Stock
-
-   Estas 4 columnas son OPCIONALES (si no las cargás, el catálogo funciona
-   igual, simplemente no muestra esa parte):
-
-   · Nuevo            → escribí "Si" en las filas que quieras marcar como
-                         "Nuevos ingresos" (aparece un botón de acceso
-                         rápido para ese filtro). Dejalo vacío o "No" en
-                         el resto.
-
-   · Talles           → talles separados por coma. Ej: "S, M, L, XL"
-
-   · Colores          → colores separados por coma. Ej: "Rojo, Azul, Verde"
-
-   · ImagenesColores  → un enlace de imagen por cada color, EN EL MISMO
-                         ORDEN que escribiste en "Colores", separados por
-                         una barra vertical " | ". Ej:
-                         "https://...rojo.jpg | https://...azul.jpg | https://...verde.jpg"
-                         Si dejás esta columna vacía, al elegir cualquier
-                         color se sigue mostrando la foto de la columna
-                         "Imagen".
-
-   · SinStock         → para marcar qué combinaciones de color/talle NO
-                         tenés disponibles (el resto se asume disponible).
-                         Separá cada una con " | ". Formatos:
-                           - "Color - Talle"  → esa combinación puntual.
-                             Ej: "Blanco - Queen | Gris - 2 plazas"
-                           - Solo un color (sin talle) → todos los talles
-                             de ese color quedan agotados.
-                             Ej: "Rosa Viejo"
-                           - Solo un talle (sin color) → ese talle queda
-                             agotado en todos los colores.
-                             Ej: "2 plazas"
-                         Si dejás esta columna vacía, se usa la columna
-                         "Stock" de siempre para saber si mostrar
-                         "Disponible" o "Agotado".
-
-   FOTOS DESDE GOOGLE DRIVE:
-   Podés pegar directamente el link que te da Drive al hacer clic derecho
-   sobre la imagen → "Compartir" → "Copiar enlace" (se ve algo así:
-   https://drive.google.com/file/d/ALGUN_CODIGO/view?usp=sharing).
-   El catálogo lo detecta solito y lo transforma para que se pueda ver
-   como imagen. Eso sí: tenés que compartir CADA imagen igual que la
-   planilla → "Cualquier persona con el enlace: Lector". Si el link no
-   sigue ese formato de Drive, tal cual lo pegaste tiene que ser un link
-   que termine mostrando la imagen directamente (no una página).
-   ============================================================================= */
   const SHEET_ID = "1pwgSaZIgQ8ezc1N3jIpH1YR6RJ4OQZgBC-4gWErFHIo";
   const GID = "0";
 
-  /* -----------------------------------------------------------------------
-     DATOS DE CONTACTO — completá estos 3 valores con los tuyos.
-     · email      → tu casilla de mail (sin "mailto:", solo la dirección).
-     · whatsapp   → tu número CON código de país y de área, SOLO números,
-                    sin "+", sin espacios ni guiones.
-                    Ejemplo Argentina (cel. 11 2233-4455): "5491122334455"
-     · horario    → texto libre, opcional. Dejalo como "" si no querés
-                    mostrar nada ahí.
-     ----------------------------------------------------------------------- */
   const CONTACTO = {
     email: "dianelaferrari331@gmail.com",
     whatsapp: "543472449388",
     horario: "Todos los días de 08:00 a 19:00"
   };
-
-/* ============================================================================= */
 
   const content = document.getElementById('content');
   const chipRow = document.getElementById('chipRow');
@@ -597,21 +432,18 @@
 
   let allProducts = [];
   let allCategories = [];
-  let activeFilter = 'Todos';      // 'Todos', 'Nuevos ingresos' o el nombre de una categoría
-  let currentFiltered = [];        // productos que se están mostrando ahora mismo (para abrir el detalle)
-  let currentProduct = null;       // producto abierto en el modal de detalle
+  let activeFilter = 'Todos';
+  let currentFiltered = [];
+  let currentProduct = null;
 
-  /* Convierte un link de "Compartir" de Google Drive (que abre una página
-     de vista previa, no la imagen en sí) en un link que carga la imagen
-     directamente y sí funciona dentro de un <img src="...">. */
   function driveDirectUrl(url){
     const u = (url || '').toString().trim();
     if (!u) return u;
     const patterns = [
-      /drive\.google\.com\/file\/d\/([^/?]+)/,   // .../file/d/ID/view
-      /drive\.google\.com\/open\?id=([^&]+)/,     // .../open?id=ID
-      /drive\.google\.com\/uc\?[^#]*[?&]id=([^&]+)/, // .../uc?...id=ID
-      /[?&]id=([^&]+).*drive\.google\.com/         // por si el orden viene invertido
+      /drive\.google\.com\/file\/d\/([^/?]+)/,
+      /drive\.google\.com\/open\?id=([^&]+)/,
+      /drive\.google\.com\/uc\?[^#]*[?&]id=([^&]+)/,
+      /[?&]id=([^&]+).*drive\.google\.com/
     ];
     for (const re of patterns){
       const m = u.match(re);
@@ -631,12 +463,6 @@
     return ['si','sí','yes','true','1'].includes(s);
   }
 
-  /* Parsea la columna "SinStock" y devuelve qué colores, qué talles y qué
-     combinaciones puntuales de color+talle están marcados como agotados.
-     Formatos aceptados, separados por " | ":
-       "Color - Talle"  → esa combinación puntual
-       "Color"          → todos los talles de ese color
-       "Talle"          → ese talle en todos los colores */
   function parseSinStock(str, colores, talles){
     const out = { colores: new Set(), talles: new Set(), pares: new Set() };
     (str || '').toString().split('|').map(s => s.trim()).filter(Boolean).forEach(entry => {
@@ -654,7 +480,6 @@
     return out;
   }
 
-  /* ¿Está agotada esta combinación puntual de color/talle para este producto? */
   function comboAgotado(p, color, talle){
     const c = (color || '').toLowerCase();
     const t = (talle || '').toLowerCase();
@@ -664,8 +489,6 @@
     return false;
   }
 
-  /* ¿Tiene el producto AL MENOS una combinación disponible? Si no tiene
-     colores ni talles cargados, usa la columna "Stock" de siempre. */
   function productoDisponible(p){
     if (p.colores.length || p.talles.length){
       const colores = p.colores.length ? p.colores : [null];
@@ -704,13 +527,10 @@
 
   function renderChips(categories){
     chipRow.innerHTML = '';
-    // Botón rápido "Todos"
     chipRow.appendChild(makeChip('Todos'));
-    // Botón rápido "Nuevos ingresos" (solo si hay al menos un producto marcado como nuevo)
     if (allProducts.some(p => p.esNuevo)){
       chipRow.appendChild(makeChip('Nuevos ingresos'));
     }
-    // Desplegable con el resto de las categorías
     if (categories.length){
       const select = document.createElement('select');
       select.className = 'cat-select';
@@ -743,8 +563,6 @@
   }
 
   function cardHTML(p, idx){
-    // Formato argentino: el punto separa miles y la coma es el decimal.
-    // Ej: "$41.023,50" → hay que sacar los puntos y cambiar la coma por punto.
     const rawPrice = (p.precio||'').replace(/[^0-9.,-]/g,'').replace(/\./g,'').replace(',', '.');
     const priceNum = parseFloat(rawPrice);
     const priceLabel = isNaN(priceNum) ? (p.precio || '—') : '$' + priceNum.toLocaleString('es-AR');
@@ -765,7 +583,6 @@
       </article>`;
   }
 
-  /* ---------- MODAL DE DETALLE DE PRODUCTO ---------- */
   function openDetail(idx){
     const p = currentFiltered[idx];
     if (!p) return;
@@ -779,8 +596,6 @@
     const priceNum = parseFloat(rawPrice);
     document.getElementById('modalPrice').textContent = isNaN(priceNum) ? (p.precio || '—') : '$' + priceNum.toLocaleString('es-AR');
 
-    // Colores (si la planilla tiene la columna "Colores"): los que están
-    // agotados en TODOS sus talles quedan marcados y deshabilitados.
     const colorSelect = document.getElementById('modalColorSelect');
     const colorWrap = document.getElementById('modalColorWrap');
     colorSelect.innerHTML = '';
@@ -812,9 +627,6 @@
     document.body.style.overflow = 'hidden';
   }
 
-  /* Arma el desplegable de talles según el color elegido (si hay colores),
-     marcando como "(Agotado)" y deshabilitando los que no tengan stock
-     para ese color puntual. */
   function renderSizeOptions(){
     const p = currentProduct;
     const sizeSelect = document.getElementById('modalSizeSelect');
@@ -840,8 +652,6 @@
     sizeSelect.onchange = refreshModalStock;
   }
 
-  /* Muestra "Disponible"/"Agotado" para la combinación de color+talle que
-     está elegida en este momento en los desplegables. */
   function refreshModalStock(){
     const p = currentProduct;
     const colorSelect = document.getElementById('modalColorSelect');
@@ -854,8 +664,6 @@
     stockEl.className = 'modal-stock ' + (agotado ? 'out' : 'in');
   }
 
-  /* Cambia la foto grande del modal según el color elegido (usa la columna
-     "ImagenesColores" si está cargada; si no, deja siempre la foto principal). */
   function updateModalImage(){
     const p = currentProduct;
     if (!p) return;
@@ -871,8 +679,6 @@
     img.onload = () => { img.style.display = 'block'; };
   }
 
-  /* Abre WhatsApp con un mensaje que ya incluye el producto, el color y el
-     talle elegidos en el modal. */
   function sendWhatsappConsulta(){
     const p = currentProduct;
     if (!p) return;
@@ -911,19 +717,13 @@
     document.getElementById('contactOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
+
   function closeContact(){
     document.getElementById('contactOverlay').classList.remove('open');
     document.body.style.overflow = '';
   }
   document.addEventListener('keydown', e => { if (e.key === 'Escape'){ closeDetail(); closeContact(); } });
 
-  /* No usamos fetch() porque el navegador bloquea por CORS los pedidos
-     hechos con JavaScript desde un dominio que no sea el tuyo (como
-     Netlify) hacia Google Sheets. En cambio, pedimos los datos con una
-     etiqueta <script>, que NO tiene esa restricción: es la forma
-     "oficial" de Google para consultar una planilla desde cualquier
-     sitio externo (técnica JSONP). Por eso alcanza con que la planilla
-     esté compartida como "Cualquier persona con el enlace: Lector". */
   function loadCatalog(){
     if (!SHEET_ID || SHEET_ID.includes('PEGA_AQUI')){
       renderState(
@@ -945,7 +745,7 @@
     );
 
     let respondido = false;
-    const timeout = setTimeout(() => { if (!respondido) errorState(); }, 10000); // 10 segundos máximo de espera
+    const timeout = setTimeout(() => { if (!respondido) errorState(); }, 10000);
 
     window.handleGvizResponse = function(json){
       respondido = true;
@@ -992,7 +792,6 @@
       }
     };
 
-    // Sacamos el <script> del pedido anterior (si existe) antes de pedir de nuevo
     const prev = document.getElementById('gviz-jsonp');
     if (prev) prev.remove();
     const script = document.createElement('script');
@@ -1002,23 +801,6 @@
     document.body.appendChild(script);
   }
 
-  /* -----------------------------------------------------------------------
-  JAVASCRIPT -- CARTEL DE EVENTOS ESPECIALES — completá esto para cada fecha que quieras
-   festejar (Día del Maestro, Amigo, Navidad, lo que sea). Server para todo,
-   solo cambiás estos valores:
-
-   · activo        → true muestra el cartel, false lo apaga manualmente
-                      en cualquier momento (sin borrar nada).
-   · imagen        → link o nombre de archivo de una foto (opcional).
-                      Dejalo "" (vacío) si no querés mostrar imagen.
-   · titulo        → el título grande del cartel.
-   · mensaje       → el texto de abajo.
-   · fechaLimite   → formato "AAAA-MM-DD". El cartel deja de aparecer
-                      SOLO a partir del día siguiente a esta fecha.
-                      Dejalo "" si no querés que se apague nunca solo.
-   · confeti       → true tira animación de confeti, false no.
-   · emojisConfeti → los que quieras usar de confeti.
-   ----------------------------------------------------------------------- */
   const EVENTO_ESPECIAL = {
     activo: true,
     imagen: "",
@@ -1026,50 +808,54 @@
     mensaje: "Gracias por acompañarnos. Este es un mensaje de ejemplo.",
     fechaLimite: "2026-09-11",
     confeti: true,
-    emojisConfeti: ["🎉", "🌸", "✨"]
-    tipoEfecto: "formas",   // "formas" (cuadraditos/círculos de colores) o "emoji"
-coloresConfeti: ["#B8935A", "#C97B84", "#F7E9E6", "#3B2A2E"], // solo se usa si tipoEfecto es "formas"
+    emojisConfeti: ["🎉", "🌸", "✨"],
+    tipoEfecto: "formas",
+    coloresConfeti: ["#B8935A", "#C97B84", "#F7E9E6", "#3B2A2E"],
+    retrasoBotones: 0,
+    promoActivo: false,
+    promoCategoria: "",
+    textoBotonContinuar: "Continuar",
+    textoBotonPromo: "Ver promociones"
   };
 
   function mostrarEventoSiCorresponde(){
-   function mostrarEventoSiCorresponde(){
-  if (!EVENTO_ESPECIAL.activo) return;
-  if (EVENTO_ESPECIAL.fechaLimite){
-    const limite = new Date(EVENTO_ESPECIAL.fechaLimite + 'T23:59:59');
-    if (new Date() > limite) return;
+    if (!EVENTO_ESPECIAL.activo) return;
+    if (EVENTO_ESPECIAL.fechaLimite){
+      const limite = new Date(EVENTO_ESPECIAL.fechaLimite + 'T23:59:59');
+      if (new Date() > limite) return;
+    }
+    if (sessionStorage.getItem('eventoCerrado')) return;
+
+    const img = document.getElementById('eventoImg');
+    if (EVENTO_ESPECIAL.imagen){ img.src = EVENTO_ESPECIAL.imagen; img.style.display = 'block'; }
+    document.getElementById('eventoTitulo').textContent = EVENTO_ESPECIAL.titulo || '';
+    document.getElementById('eventoMensaje').textContent = EVENTO_ESPECIAL.mensaje || '';
+    document.getElementById('eventoOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    if (EVENTO_ESPECIAL.confeti) lanzarConfeti();
+
+    const botones = document.getElementById('eventoBotones');
+    const btnContinuar = document.getElementById('eventoBtnContinuar');
+    const btnPromo = document.getElementById('eventoBtnPromo');
+    btnContinuar.textContent = EVENTO_ESPECIAL.textoBotonContinuar || 'Continuar';
+
+    if (EVENTO_ESPECIAL.promoActivo && EVENTO_ESPECIAL.promoCategoria){
+      btnPromo.textContent = EVENTO_ESPECIAL.textoBotonPromo || 'Ver promociones';
+      btnPromo.style.display = 'flex';
+      btnPromo.onclick = (e) => {
+        e.preventDefault();
+        cerrarEvento();
+        activeFilter = EVENTO_ESPECIAL.promoCategoria;
+        renderGrid();
+        renderChips(allCategories);
+      };
+    } else {
+      btnPromo.style.display = 'none';
+    }
+
+    setTimeout(() => { botones.style.display = 'flex'; }, (EVENTO_ESPECIAL.retrasoBotones || 0) * 1000);
   }
-  if (sessionStorage.getItem('eventoCerrado')) return;
 
-  const img = document.getElementById('eventoImg');
-  if (EVENTO_ESPECIAL.imagen){ img.src = EVENTO_ESPECIAL.imagen; img.style.display = 'block'; }
-  document.getElementById('eventoTitulo').textContent = EVENTO_ESPECIAL.titulo || '';
-  document.getElementById('eventoMensaje').textContent = EVENTO_ESPECIAL.mensaje || '';
-  document.getElementById('eventoOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  if (EVENTO_ESPECIAL.confeti) lanzarConfeti();
-
-  // Botones: aparecen recién después de "retrasoBotones" segundos
-  const botones = document.getElementById('eventoBotones');
-  const btnContinuar = document.getElementById('eventoBtnContinuar');
-  const btnPromo = document.getElementById('eventoBtnPromo');
-  btnContinuar.textContent = EVENTO_ESPECIAL.textoBotonContinuar || 'Continuar';
-
-  if (EVENTO_ESPECIAL.promoActivo && EVENTO_ESPECIAL.promoCategoria){
-    btnPromo.textContent = EVENTO_ESPECIAL.textoBotonPromo || 'Ver promociones';
-    btnPromo.style.display = 'flex';
-    btnPromo.onclick = (e) => {
-      e.preventDefault();
-      cerrarEvento();
-      activeFilter = EVENTO_ESPECIAL.promoCategoria;
-      renderGrid();
-      renderChips(allCategories);
-    };
-  } else {
-    btnPromo.style.display = 'none';
-  }
-
-  setTimeout(() => { botones.style.display = 'flex'; }, EVENTO_ESPECIAL.retrasoBotones * 1000);
-}
   function cerrarEvento(){
     document.getElementById('eventoOverlay').classList.remove('open');
     document.body.style.overflow = '';
@@ -1077,64 +863,58 @@ coloresConfeti: ["#B8935A", "#C97B84", "#F7E9E6", "#3B2A2E"], // solo se usa si 
   }
 
   function lanzarConfeti(){
-  const cont = document.getElementById('eventoConfeti');
-  for (let i = 0; i < 50; i++){
-    const span = document.createElement('span');
-    if (EVENTO_ESPECIAL.tipoEfecto === 'formas'){
-      span.className = 'confeti-forma';
-      const colores = EVENTO_ESPECIAL.coloresConfeti.length ? EVENTO_ESPECIAL.coloresConfeti : ['#B8935A'];
-      span.style.background = colores[Math.floor(Math.random() * colores.length)];
-      span.style.borderRadius = ['50%', '4px', '0'][Math.floor(Math.random() * 3)];
-      const tam = 8 + Math.random() * 10;
-      span.style.width = tam + 'px';
-      span.style.height = tam + 'px';
-    } else {
-      span.className = 'confeti-pieza';
-      const emojis = EVENTO_ESPECIAL.emojisConfeti.length ? EVENTO_ESPECIAL.emojisConfeti : ['🎉'];
-      span.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-      span.style.fontSize = (16 + Math.random() * 14) + 'px';
-    }
-    span.style.left = Math.random() * 100 + 'vw';
-    span.style.animationDuration = (2.5 + Math.random() * 2) + 's';
-    span.style.animationDelay = (Math.random() * 1.5) + 's';
-    cont.appendChild(span);
-  }
-  setTimeout(() => { cont.innerHTML = ''; }, 5000);
-}
-  mostrarEventoSiCorresponde();
-/*=============================================================================*/
-    
-/*=============================================================================*/
-    /* CONTADOR DE VISITAS — cambiá esto por algo único de tu negocio,
-   para que no se mezcle con el contador de otro sitio */
-const CONTADOR_NAMESPACE = "dulces-suenos-blanqueria-8823";
-
-function registrarVisita(){
-  fetch(`https://api.countapi.xyz/hit/${CONTADOR_NAMESPACE}/visitas`)
-    .then(res => res.json())
-    .then(data => {
-      if (new URLSearchParams(window.location.search).get('visitas') === '1'){
-        const badge = document.createElement('div');
-        badge.textContent = `👁️ Visitas totales: ${data.value}`;
-        badge.style.cssText = `
-          position:fixed; bottom:14px; right:14px; z-index:200;
-          background:var(--ink); color:#fff; padding:8px 14px;
-          border-radius:999px; font-family:'Averia Serif Libre', serif;
-          font-size:13px; box-shadow:0 6px 16px rgba(0,0,0,.25);
-        `;
-        document.body.appendChild(badge);
+    const cont = document.getElementById('eventoConfeti');
+    for (let i = 0; i < 50; i++){
+      const span = document.createElement('span');
+      if (EVENTO_ESPECIAL.tipoEfecto === 'formas'){
+        span.className = 'confeti-forma';
+        const colores = EVENTO_ESPECIAL.coloresConfeti.length ? EVENTO_ESPECIAL.coloresConfeti : ['#B8935A'];
+        span.style.background = colores[Math.floor(Math.random() * colores.length)];
+        span.style.borderRadius = ['50%', '4px', '0'][Math.floor(Math.random() * 3)];
+        const tam = 8 + Math.random() * 10;
+        span.style.width = tam + 'px';
+        span.style.height = tam + 'px';
+      } else {
+        span.className = 'confeti-pieza';
+        const emojis = EVENTO_ESPECIAL.emojisConfeti.length ? EVENTO_ESPECIAL.emojisConfeti : ['🎉'];
+        span.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        span.style.fontSize = (16 + Math.random() * 14) + 'px';
       }
-    })
-    .catch(() => {}); // si el servicio falla, no rompe nada del catálogo
-}
-registrarVisita();
-    /*=============================================================================*/
-    
-    /*=============================================================================*/
-    
+      span.style.left = Math.random() * 100 + 'vw';
+      span.style.animationDuration = (2.5 + Math.random() * 2) + 's';
+      span.style.animationDelay = (Math.random() * 1.5) + 's';
+      cont.appendChild(span);
+    }
+    setTimeout(() => { cont.innerHTML = ''; }, 5000);
+  }
+
+  mostrarEventoSiCorresponde();
+
+  const CONTADOR_NAMESPACE = "dulces-suenos-blanqueria-8823";
+
+  function registrarVisita(){
+    fetch(`https://api.countapi.xyz/hit/${CONTADOR_NAMESPACE}/visitas`)
+      .then(res => res.json())
+      .then(data => {
+        if (new URLSearchParams(window.location.search).get('visitas') === '1'){
+          const badge = document.createElement('div');
+          badge.textContent = `👁️ Visitas totales: ${data.value}`;
+          badge.style.cssText = `
+            position:fixed; bottom:14px; right:14px; z-index:200;
+            background:var(--ink); color:#fff; padding:8px 14px;
+            border-radius:999px; font-family:'Averia Serif Libre', serif;
+            font-size:13px; box-shadow:0 6px 16px rgba(0,0,0,.25);
+          `;
+          document.body.appendChild(badge);
+        }
+      })
+      .catch(() => {});
+  }
+  registrarVisita();
+
   searchInput.addEventListener('input', renderGrid);
   loadCatalog();
-  setInterval(loadCatalog, 60000); // vuelve a chequear la planilla cada 60 segundos
+  setInterval(loadCatalog, 60000);
 </script>
 </body>
 </html>

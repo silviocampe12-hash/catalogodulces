@@ -562,26 +562,37 @@
     content.innerHTML = `<div class="grid">${filtered.map((p, idx) => cardHTML(p, idx)).join('')}</div>`;
   }
 
-  function cardHTML(p, idx){
-    const rawPrice = (p.precio||'').replace(/[^0-9.,-]/g,'').replace(/\./g,'').replace(',', '.');
-    const priceNum = parseFloat(rawPrice);
-    const priceLabel = isNaN(priceNum) ? (p.precio || '—') : '$' + priceNum.toLocaleString('es-AR');
-    const stockOk = productoDisponible(p);
-    return `
-      <article class="card" onclick="openDetail(${idx})">
-        <div class="thumb">
-          ${p.imagen ? `<img src="${p.imagen}" alt="${p.nombre}" loading="lazy" onerror="this.parentElement.innerHTML='<span class=noimg>Sin imagen</span>'">` : `<span class="noimg">Sin imagen</span>`}
-          <span class="stock-tag ${stockOk ? 'in':'out'}">${stockOk ? 'Disponible' : 'Agotado'}</span>
+ function cardHTML(p, idx){
+
+  const rawPrice = (p.precio || '').replace(/[^0-9.,-]/g,'').replace(/\./g,'').replace(',', '.');
+  const priceNum = parseFloat(rawPrice);
+  const priceLabel = isNaN(priceNum) ? (p.precio || '—') : '$' + priceNum.toLocaleString('es-AR');
+
+
+  const rawOldPrice = (p.precioAnterior || '').replace(/[^0-9.,-]/g,'').replace(/\./g,'').replace(',', '.');
+  const oldPriceNum = parseFloat(rawOldPrice);
+  const oldPriceLabel = isNaN(oldPriceNum) ? p.precioAnterior : '$' + oldPriceNum.toLocaleString('es-AR');
+
+  const stockOk = productoDisponible(p);
+
+  return `
+    <article class="card" onclick="openDetail(${idx})">
+      <div class="thumb">
+        ${p.imagen ? `<img src="${p.imagen}" alt="${p.nombre}" loading="lazy" onerror="this.parentElement.innerHTML='<span class=noimg>Sin imagen</span>'">` : `<span class="noimg">Sin imagen</span>`}
+        <span class="stock-tag ${stockOk ? 'in':'out'}">${stockOk ? 'Disponible' : 'Agotado'}</span>
+      </div>
+      <div class="body">
+        ${p.categoria ? `<p class="category">${p.categoria}</p>` : ''}
+        <h3 class="name">${p.nombre || 'Producto sin nombre'}</h3>
+        <p class="desc">${p.descripcion || ''}</p>
+        <div class="flourish"><svg viewBox="0 0 24 24" fill="currentColor" style="color:var(--accent)"><circle cx="12" cy="12" r="4"/></svg></div>
+        <div class="price-row" style="display:flex; gap:8px; align-items:baseline; justify-content:center;">
+          ${oldPriceLabel ? `<span class="price-old" style="text-decoration: line-through; color: var(--ink-soft); font-size: 15px;">${oldPriceLabel}</span>` : ''}
+          <span class="price">${priceLabel}</span>
         </div>
-        <div class="body">
-          ${p.categoria ? `<p class="category">${p.categoria}</p>` : ''}
-          <h3 class="name">${p.nombre || 'Producto sin nombre'}</h3>
-          <p class="desc">${p.descripcion || ''}</p>
-          <div class="flourish"><svg viewBox="0 0 24 24" fill="currentColor" style="color:var(--accent)"><circle cx="12" cy="12" r="4"/></svg></div>
-          <div class="price-row"><span class="price">${priceLabel}</span></div>
-        </div>
-      </article>`;
-  }
+      </div>
+    </article>`;
+}
 
   function openDetail(idx){
     const p = currentFiltered[idx];
@@ -592,9 +603,21 @@
     document.getElementById('modalName').textContent = p.nombre || 'Producto sin nombre';
     document.getElementById('modalDesc').textContent = p.descripcion || '';
 
-    const rawPrice = (p.precio||'').replace(/[^0-9.,-]/g,'').replace(/\./g,'').replace(',', '.');
-    const priceNum = parseFloat(rawPrice);
-    document.getElementById('modalPrice').textContent = isNaN(priceNum) ? (p.precio || '—') : '$' + priceNum.toLocaleString('es-AR');
+   // REEMPLAZALO POR ESTE BLOQUE:
+const rawPrice = (p.precio||'').replace(/[^0-9.,-]/g,'').replace(/\./g,'').replace(',', '.');
+const priceNum = parseFloat(rawPrice);
+const priceLabel = isNaN(priceNum) ? (p.precio || '—') : '$' + priceNum.toLocaleString('es-AR');
+
+const rawOldPrice = (p.precioAnterior || '').replace(/[^0-9.,-]/g,'').replace(/\./g,'').replace(',', '.');
+const oldPriceNum = parseFloat(rawOldPrice);
+const oldPriceLabel = isNaN(oldPriceNum) ? p.precioAnterior : '$' + oldPriceNum.toLocaleString('es-AR');
+
+const modalPriceEl = document.getElementById('modalPrice');
+if (oldPriceLabel) {
+  modalPriceEl.innerHTML = `<span style="text-decoration: line-through; color: var(--ink-soft); font-size: 18px; margin-right: 8px;">${oldPriceLabel}</span> <span>${priceLabel}</span>`;
+} else {
+  modalPriceEl.textContent = priceLabel;
+}
 
     const colorSelect = document.getElementById('modalColorSelect');
     const colorWrap = document.getElementById('modalColorWrap');
@@ -772,6 +795,7 @@
             ...r,
             imagen: driveDirectUrl(r.imagen),
             esNuevo: isNuevo(r.nuevo),
+            precioAnterior: r.precioanterior || r.precioAnterior || '',
             talles,
             colores,
             imagenescolores: splitPipe(r.imagenescolores),
@@ -803,7 +827,7 @@
 
   const EVENTO_ESPECIAL = {
     activo: true,
-    imagen: "https://drive.google.com/drive/folders/1qxgg5M-tNnc7ClgnRhIDhiPC004LNmf7?hl=es",
+    imagen: "1MdkzjYazedOPHStQfj0zEQT8wzyC8QYO",
     titulo: "¡ADELANTATE AL DÍA DE LA SECRETARÍA!",
     mensaje: "Descubrí nuestra colección de home deco con hasta un 15% off",
     fechaLimite: "2026-09-11",

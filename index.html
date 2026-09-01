@@ -308,29 +308,67 @@
     display:none; align-items:center; justify-content:center; padding:20px;
   }
   .evento-overlay.open{ display:flex; }
-  .evento-box{
-    background:var(--surface); border-radius:var(--radius);
-    max-width:420px; width:100%; padding:32px 28px; text-align:center;
-    position:relative; box-shadow:0 30px 60px -20px rgba(0,0,0,.4);
-    animation:eventoPop .35s ease;
-  }
+  .evento-box {
+  background: var(--surface);
+  border-radius: var(--radius);
+  max-width: 460px;
+  width: 100%;
+  padding: 0 0 28px 0;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 30px 60px -20px rgba(0,0,0,.4);
+  animation: eventoPop .35s ease;
+  overflow: hidden;
+}
   @keyframes eventoPop{ from{ transform:scale(.85); opacity:0; } to{ transform:scale(1); opacity:1; } }
   .evento-close{
     position:absolute; top:10px; right:10px; width:32px; height:32px;
     border-radius:50%; border:1px solid var(--line); background:var(--surface);
     cursor:pointer; font-size:18px; line-height:1;
   }
-  .evento-img{ width:100%; max-height:220px; object-fit:cover; border-radius:12px; margin-bottom:16px; display:none; }
-  .evento-box h2{ font-family:'Averia Serif Libre', serif; margin:0 0 8px; font-size:24px; color:var(--ink); }
-  .evento-box p{ margin:0; color:var(--ink-soft); font-size:15px; line-height:1.5; }
-  .evento-confeti{ position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:99; }
-  .evento-botones{
-    display:none;
-    flex-direction:column;
-    gap:10px;
-    margin-top:18px;
-    animation:eventoPop .3s ease;
-  }
+  .evento-img {
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+  border-radius: 0;
+  margin-bottom: 20px;
+  display: none;
+}
+ .evento-box h2 { 
+  font-family: 'Averia Serif Libre', serif; 
+  margin: 0 0 8px; 
+  font-size: 24px; 
+  color: var(--ink); 
+  padding-left: 28px;
+  padding-right: 28px;
+}
+
+.evento-box p { 
+  margin: 0; 
+  color: var(--ink-soft); 
+  font-size: 15px; 
+  line-height: 1.5; 
+  padding-left: 28px;
+  padding-right: 28px;
+}
+
+.evento-confeti { 
+  position: fixed; 
+  inset: 0; 
+  pointer-events: none; 
+  overflow: hidden; 
+  z-index: 99; 
+}
+
+.evento-botones {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 18px;
+  animation: eventoPop .3s ease;
+  padding-left: 28px;
+  padding-right: 28px;
+}
   .confeti-pieza{ position:absolute; top:-40px; animation:eventoCaer linear forwards; }
   @keyframes eventoCaer{ to{ transform:translateY(110vh) rotate(360deg); opacity:.9; } }
   .confeti-forma{ position:absolute; top:-40px; animation:eventoCaer linear forwards; }

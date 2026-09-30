@@ -102,7 +102,15 @@ const SHEET_ID = "1pwgSaZIgQ8ezc1N3jIpH1YR6RJ4OQZgBC-4gWErFHIo";
     const el = document.createElement('button');
     el.className = 'chip' + (cat === activeFilter ? ' active' : '');
     el.textContent = cat;
-    el.addEventListener('click', () => { activeFilter = cat; renderGrid(); renderChips(allCategories); });
+    el.addEventListener('click', () => { 
+      activeFilter = cat; 
+
+      // EVENTO GA4: Clic en categoría
+      gtag('event', 'click_categoria', { 'categoria': cat });
+
+      renderGrid(); 
+      renderChips(allCategories); 
+    });
     return el;
   }
 
@@ -118,8 +126,16 @@ const SHEET_ID = "1pwgSaZIgQ8ezc1N3jIpH1YR6RJ4OQZgBC-4gWErFHIo";
       const isCategorySelected = !['Todos','Nuevos ingresos'].includes(activeFilter);
       select.innerHTML = `<option value="">Categorías</option>` +
         categories.map(c => `<option value="${c}" ${isCategorySelected && activeFilter === c ? 'selected' : ''}>${c}</option>`).join('');
-      select.addEventListener('change', () => {
-        if (select.value){ activeFilter = select.value; renderGrid(); renderChips(categories); }
+     select.addEventListener('change', () => {
+        if (select.value){ 
+          activeFilter = select.value; 
+
+          // EVENTO GA4: Selección de categoría desde desplegable
+          gtag('event', 'click_categoria', { 'categoria': select.value });
+
+          renderGrid(); 
+          renderChips(categories); 
+        }
       });
       chipRow.appendChild(select);
     }
@@ -154,9 +170,13 @@ const SHEET_ID = "1pwgSaZIgQ8ezc1N3jIpH1YR6RJ4OQZgBC-4gWErFHIo";
   const oldPriceNum = parseFloat(rawOldPrice);
   const oldPriceLabel = isNaN(oldPriceNum) ? p.precioAnterior : '$' + oldPriceNum.toLocaleString('es-AR');
 
+  const rawCardPrice = (p.tarjeta || '').replace(/[^0-9.,-]/g,'').replace(/\./g,'').replace(',', '.');
+  const cardPriceNum = parseFloat(rawCardPrice);
+  const cardPriceLabel = isNaN(cardPriceNum) ? (p.tarjeta || '') : '$' + cardPriceNum.toLocaleString('es-AR');
+   
   const stockOk = productoDisponible(p);
 
-  return `
+ return `
     <article class="card" onclick="openDetail(${idx})">
       <div class="thumb">
         ${p.imagen ? `<img src="${p.imagen}" alt="${p.nombre}" loading="lazy" onerror="this.parentElement.innerHTML='<span class=noimg>Sin imagen</span>'">` : `<span class="noimg">Sin imagen</span>`}
@@ -167,9 +187,24 @@ const SHEET_ID = "1pwgSaZIgQ8ezc1N3jIpH1YR6RJ4OQZgBC-4gWErFHIo";
         <h3 class="name">${p.nombre || 'Producto sin nombre'}</h3>
         <p class="desc">${p.descripcion || ''}</p>
         <div class="flourish"><svg viewBox="0 0 24 24" fill="currentColor" style="color:var(--accent)"><circle cx="12" cy="12" r="4"/></svg></div>
-        <div class="price-row" style="display:flex; gap:8px; align-items:baseline; justify-content:center;">
-          ${oldPriceLabel ? `<span class="price-old" style="text-decoration: line-through; color: #A23B56; font-size: 15px;">${oldPriceLabel}</span>` : ''}
-          <span class="price">${priceLabel}</span>
+        
+        <div style="text-align: center; margin-top: 6px;">
+          <div style="font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 2px;">
+            Efectivo / Transferencia
+          </div>
+          <div class="price-row" style="display:flex; gap:8px; align-items:baseline; justify-content:center;">
+            ${oldPriceLabel ? `<span class="price-old" style="text-decoration: line-through; color: #A23B56; font-size: 14px;">${oldPriceLabel}</span>` : ''}
+            <span class="price">${priceLabel}</span>
+          </div>
+          
+          ${cardPriceLabel ? `
+            <div style="margin-top: 6px; padding-top: 4px; border-top: 1px dashed var(--line);">
+              <div style="font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1px;">
+                Tarjeta (3 cuotas)
+              </div>
+              <span style="font-family:'Averia Serif Libre', serif; font-weight:600; font-size:16px; color:var(--ink);">${cardPriceLabel}</span>
+            </div>
+          ` : ''}
         </div>
       </div>
     </article>`;
@@ -179,6 +214,15 @@ const SHEET_ID = "1pwgSaZIgQ8ezc1N3jIpH1YR6RJ4OQZgBC-4gWErFHIo";
     const p = currentFiltered[idx];
     if (!p) return;
     currentProduct = p;
+
+  //EVENTO GA4: Clic en producto//
+    
+    gtag('event', 'click_producto', {
+      'nombre_producto': p.nombre || 'Sin nombre',
+      'categoria': p.categoria || 'Sin categoría'
+    });
+
+    document.getElementById('modalCategory').textContent = p.categoria || '';
 
     document.getElementById('modalCategory').textContent = p.categoria || '';
     document.getElementById('modalName').textContent = p.nombre || 'Producto sin nombre';
@@ -193,12 +237,26 @@ const rawOldPrice = (p.precioAnterior || '').replace(/[^0-9.,-]/g,'').replace(/\
 const oldPriceNum = parseFloat(rawOldPrice);
 const oldPriceLabel = isNaN(oldPriceNum) ? p.precioAnterior : '$' + oldPriceNum.toLocaleString('es-AR');
 
+const rawCardPrice = (p.tarjeta || '').replace(/[^0-9.,-]/g,'').replace(/\./g,'').replace(',', '.');
+const cardPriceNum = parseFloat(rawCardPrice);
+const cardPriceLabel = isNaN(cardPriceNum) ? (p.tarjeta || '') : '$' + cardPriceNum.toLocaleString('es-AR');
+    
 const modalPriceEl = document.getElementById('modalPrice');
-if (oldPriceLabel) {
-  modalPriceEl.innerHTML = `<span style="text-decoration: line-through; color: #A23B56; font-size: 18px; margin-right: 8px;">${oldPriceLabel}</span> <span>${priceLabel}</span>`;
-} else {
-  modalPriceEl.textContent = priceLabel;
-}
+modalPriceEl.innerHTML = `
+  <div style="display:flex; flex-direction:column; gap:6px; margin: 8px 0 4px;">
+    <div>
+      <span style="font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); display: block;">Efectivo / Transferencia</span>
+      ${oldPriceLabel ? `<span style="text-decoration: line-through; color: #A23B56; font-size: 16px; margin-right: 6px;">${oldPriceLabel}</span>` : ''}
+      <span style="font-size: 22px; color: var(--accent-rose);">${priceLabel}</span>
+    </div>
+    ${cardPriceLabel ? `
+      <div style="padding-top: 4px; border-top: 1px dashed var(--line);">
+        <span style="font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); display: block;">Precio con Tarjeta</span>
+        <span style="font-size: 18px; color: var(--ink);">${cardPriceLabel}</span>
+      </div>
+    ` : ''}
+  </div>
+`;
 
     const colorSelect = document.getElementById('modalColorSelect');
     const colorWrap = document.getElementById('modalColorWrap');
@@ -217,14 +275,20 @@ if (oldPriceLabel) {
         colorSelect.appendChild(opt);
       });
       colorSelect.value = firstDisponible !== -1 ? firstDisponible : 0;
-      colorSelect.onchange = () => { renderSizeOptions(); updateModalImage(); refreshModalStock(); };
-    } else {
-      colorWrap.style.display = 'none';
-    }
+      colorSelect.onchange = () => { 
+      const colorElegido = p.colores[parseInt(colorSelect.value, 10)];
 
-    renderSizeOptions();
-    updateModalImage();
-    refreshModalStock();
+      // EVENTO GA4: Selección de Color
+      gtag('event', 'seleccionar_variante', {
+        'tipo': 'color',
+        'valor': colorElegido,
+        'nombre_producto': p.nombre
+      });
+
+      renderSizeOptions(); 
+      updateModalImage(); 
+      refreshModalStock(); 
+    };
     const waBtn = document.getElementById('modalWhatsappBtn');
     waBtn.style.display = (CONTACTO.whatsapp && !CONTACTO.whatsapp.includes('PEGA_AQUI')) ? 'flex' : 'none';
     document.getElementById('modalOverlay').classList.add('open');
@@ -253,10 +317,16 @@ if (oldPriceLabel) {
       sizeSelect.appendChild(opt);
     });
     sizeSelect.selectedIndex = firstDisponible !== -1 ? firstDisponible : 0;
-    sizeSelect.onchange = refreshModalStock;
-  }
+   sizeSelect.onchange = () => {
+      // EVENTO GA4: Selección de Talle / Medida
+      gtag('event', 'seleccionar_variante', {
+        'tipo': 'talle_medida',
+        'valor': sizeSelect.value,
+        'nombre_producto': p.nombre
+      });
 
-  function refreshModalStock(){
+      refreshModalStock();
+    };
     const p = currentProduct;
     const colorSelect = document.getElementById('modalColorSelect');
     const sizeSelect = document.getElementById('modalSizeSelect');
@@ -287,6 +357,12 @@ if (oldPriceLabel) {
     const p = currentProduct;
     if (!p) return;
     if (!CONTACTO.whatsapp || CONTACTO.whatsapp.includes('PEGA_AQUI')) return;
+    // EVENTO GA4: Clic en WhatsApp por un producto
+    gtag('event', 'click_whatsapp', {
+      'nombre_producto': p.nombre,
+      'categoria': p.categoria
+    });
+
     let msg = `Hola! Quería consultar por: ${p.nombre}`;
     if (p.colores && p.colores.length){
       const c = p.colores[parseInt(document.getElementById('modalColorSelect').value, 10)];

@@ -215,48 +215,44 @@ const SHEET_ID = "1pwgSaZIgQ8ezc1N3jIpH1YR6RJ4OQZgBC-4gWErFHIo";
     if (!p) return;
     currentProduct = p;
 
-  //EVENTO GA4: Clic en producto//
-    
+    // EVENTO GA4: Clic en producto
     gtag('event', 'click_producto', {
       'nombre_producto': p.nombre || 'Sin nombre',
       'categoria': p.categoria || 'Sin categoría'
     });
 
     document.getElementById('modalCategory').textContent = p.categoria || '';
-
-    document.getElementById('modalCategory').textContent = p.categoria || '';
     document.getElementById('modalName').textContent = p.nombre || 'Producto sin nombre';
     document.getElementById('modalDesc').textContent = p.descripcion || '';
 
+    const rawPrice = (p.precio||'').replace(/[^0-9.,-]/g,'').replace(/\./g,'').replace(',', '.');
+    const priceNum = parseFloat(rawPrice);
+    const priceLabel = isNaN(priceNum) ? (p.precio || '—') : '$' + priceNum.toLocaleString('es-AR');
 
-const rawPrice = (p.precio||'').replace(/[^0-9.,-]/g,'').replace(/\./g,'').replace(',', '.');
-const priceNum = parseFloat(rawPrice);
-const priceLabel = isNaN(priceNum) ? (p.precio || '—') : '$' + priceNum.toLocaleString('es-AR');
+    const rawOldPrice = (p.precioAnterior || '').replace(/[^0-9.,-]/g,'').replace(/\./g,'').replace(',', '.');
+    const oldPriceNum = parseFloat(rawOldPrice);
+    const oldPriceLabel = isNaN(oldPriceNum) ? p.precioAnterior : '$' + oldPriceNum.toLocaleString('es-AR');
 
-const rawOldPrice = (p.precioAnterior || '').replace(/[^0-9.,-]/g,'').replace(/\./g,'').replace(',', '.');
-const oldPriceNum = parseFloat(rawOldPrice);
-const oldPriceLabel = isNaN(oldPriceNum) ? p.precioAnterior : '$' + oldPriceNum.toLocaleString('es-AR');
-
-const rawCardPrice = (p.tarjeta || '').replace(/[^0-9.,-]/g,'').replace(/\./g,'').replace(',', '.');
-const cardPriceNum = parseFloat(rawCardPrice);
-const cardPriceLabel = isNaN(cardPriceNum) ? (p.tarjeta || '') : '$' + cardPriceNum.toLocaleString('es-AR');
-    
-const modalPriceEl = document.getElementById('modalPrice');
-modalPriceEl.innerHTML = `
-  <div style="display:flex; flex-direction:column; gap:6px; margin: 8px 0 4px;">
-    <div>
-      <span style="font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); display: block;">Efectivo / Transferencia</span>
-      ${oldPriceLabel ? `<span style="text-decoration: line-through; color: #A23B56; font-size: 16px; margin-right: 6px;">${oldPriceLabel}</span>` : ''}
-      <span style="font-size: 22px; color: var(--accent-rose);">${priceLabel}</span>
-    </div>
-    ${cardPriceLabel ? `
-      <div style="padding-top: 4px; border-top: 1px dashed var(--line);">
-        <span style="font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); display: block;">Precio con Tarjeta</span>
-        <span style="font-size: 18px; color: var(--ink);">${cardPriceLabel}</span>
+    const rawCardPrice = (p.tarjeta || '').replace(/[^0-9.,-]/g,'').replace(/\./g,'').replace(',', '.');
+    const cardPriceNum = parseFloat(rawCardPrice);
+    const cardPriceLabel = isNaN(cardPriceNum) ? (p.tarjeta || '') : '$' + cardPriceNum.toLocaleString('es-AR');
+        
+    const modalPriceEl = document.getElementById('modalPrice');
+    modalPriceEl.innerHTML = `
+      <div style="display:flex; flex-direction:column; gap:6px; margin: 8px 0 4px;">
+        <div>
+          <span style="font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); display: block;">Efectivo / Transferencia</span>
+          ${oldPriceLabel ? `<span style="text-decoration: line-through; color: #A23B56; font-size: 16px; margin-right: 6px;">${oldPriceLabel}</span>` : ''}
+          <span style="font-size: 22px; color: var(--accent-rose);">${priceLabel}</span>
+        </div>
+        ${cardPriceLabel ? `
+          <div style="padding-top: 4px; border-top: 1px dashed var(--line);">
+            <span style="font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); display: block;">Precio con Tarjeta</span>
+            <span style="font-size: 18px; color: var(--ink);">${cardPriceLabel}</span>
+          </div>
+        ` : ''}
       </div>
-    ` : ''}
-  </div>
-`;
+    `;
 
     const colorSelect = document.getElementById('modalColorSelect');
     const colorWrap = document.getElementById('modalColorWrap');
@@ -276,19 +272,27 @@ modalPriceEl.innerHTML = `
       });
       colorSelect.value = firstDisponible !== -1 ? firstDisponible : 0;
       colorSelect.onchange = () => { 
-      const colorElegido = p.colores[parseInt(colorSelect.value, 10)];
+        const colorElegido = p.colores[parseInt(colorSelect.value, 10)];
 
-      // EVENTO GA4: Selección de Color
-      gtag('event', 'seleccionar_variante', {
-        'tipo': 'color',
-        'valor': colorElegido,
-        'nombre_producto': p.nombre
-      });
+        // EVENTO GA4: Selección de Color
+        gtag('event', 'seleccionar_variante', {
+          'tipo': 'color',
+          'valor': colorElegido,
+          'nombre_producto': p.nombre
+        });
 
-      renderSizeOptions(); 
-      updateModalImage(); 
-      refreshModalStock(); 
-    };
+        renderSizeOptions(); 
+        updateModalImage(); 
+        refreshModalStock(); 
+      };
+    } else {
+      colorWrap.style.display = 'none';
+    }
+
+    renderSizeOptions();
+    updateModalImage();
+    refreshModalStock();
+
     const waBtn = document.getElementById('modalWhatsappBtn');
     waBtn.style.display = (CONTACTO.whatsapp && !CONTACTO.whatsapp.includes('PEGA_AQUI')) ? 'flex' : 'none';
     document.getElementById('modalOverlay').classList.add('open');
@@ -297,6 +301,7 @@ modalPriceEl.innerHTML = `
 
   function renderSizeOptions(){
     const p = currentProduct;
+    if (!p) return;
     const sizeSelect = document.getElementById('modalSizeSelect');
     const sizeWrap = document.getElementById('modalSizeWrap');
     sizeSelect.innerHTML = '';
@@ -317,7 +322,7 @@ modalPriceEl.innerHTML = `
       sizeSelect.appendChild(opt);
     });
     sizeSelect.selectedIndex = firstDisponible !== -1 ? firstDisponible : 0;
-   sizeSelect.onchange = () => {
+    sizeSelect.onchange = () => {
       // EVENTO GA4: Selección de Talle / Medida
       gtag('event', 'seleccionar_variante', {
         'tipo': 'talle_medida',
@@ -327,15 +332,21 @@ modalPriceEl.innerHTML = `
 
       refreshModalStock();
     };
+  }
+
+  function refreshModalStock(){
     const p = currentProduct;
+    if (!p) return;
     const colorSelect = document.getElementById('modalColorSelect');
     const sizeSelect = document.getElementById('modalSizeSelect');
     const color = (p.colores && p.colores.length) ? p.colores[parseInt(colorSelect.value, 10)] : null;
     const talle = (p.talles && p.talles.length) ? sizeSelect.value : null;
     const agotado = (p.colores.length || p.talles.length) ? comboAgotado(p, color, talle) : !isInStock(p.stock);
     const stockEl = document.getElementById('modalStock');
-    stockEl.textContent = agotado ? 'Agotado' : 'Disponible';
-    stockEl.className = 'modal-stock ' + (agotado ? 'out' : 'in');
+    if (stockEl) {
+      stockEl.textContent = agotado ? 'Agotado' : 'Disponible';
+      stockEl.className = 'modal-stock ' + (agotado ? 'out' : 'in');
+    }
   }
 
   function updateModalImage(){
